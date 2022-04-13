@@ -1,6 +1,6 @@
 package service;
 
-import entity.DataObject;
+import entity.Project;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
@@ -10,19 +10,21 @@ import utils.HibernateSessionFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataService extends ServiceImpl{
+public class ProjectService extends ServiceImpl{
 
-    private final Logger logger = LoggerFactory.getLogger(DataService.class);
+    private final Logger logger = LoggerFactory.getLogger(ProjectService.class);
 
-    public List<DataObject> getAll() {
-        ArrayList<DataObject> list;
+    public List<Project> getAll() {
+        ArrayList<Project> list;
         try (Session session = HibernateSessionFactory.getSession()) {
             session.beginTransaction();
-            Query query = session.createQuery("FROM DataObject as d");
-            list = (ArrayList<DataObject>) query.list();
+            Query query = session.createQuery("FROM Project as d");
+            list = (ArrayList<Project>) query.list();
             session.getTransaction().commit();
         }
         return list;
     }
+
+
 
 }

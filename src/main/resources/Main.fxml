@@ -12,11 +12,26 @@
    <children>
       <TabPane layoutY="41.0" prefHeight="742.0" prefWidth="1168.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Summary">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="317.0" />
-            </content>
-          </Tab>
+           <Tab text="Data">
+              <content>
+                <fx:include fx:id="DataTab" source="tabs/DataTab.fxml" />
+              </content>
+           </Tab>
+           <Tab text="Average">
+              <content>
+                  <fx:include fx:id="AverageTab" source="tabs/Average.fxml" />
+              </content>
+           </Tab>
+           <Tab text="Currency">
+              <content>
+                 <fx:include fx:id="CurrencyTab" source="tabs/Currency.fxml" />
+              </content>
+           </Tab>
+           <Tab text="Project">
+              <content>
+                 <fx:include fx:id="ProjectTab" source="tabs/Project.fxml" />
+              </content>
+           </Tab>
           <Tab text="Cash">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="714.0" prefWidth="1122.0">
@@ -66,42 +81,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-           <Tab text="Portfolio">
-              <content>
-                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-           </Tab>
-           <Tab text="Currency position">
-              <content>
-                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-           </Tab>
-           <Tab text="Data">
-              <content>
-                <fx:include fx:id="DataTab" source="tabs/DataTab.fxml" />
-              </content>
-           </Tab>
-           <Tab text="Average">
-              <content>
-                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-           </Tab>
-           <Tab text="Balance">
-              <content>
-                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-           </Tab>
            <Tab text="Support">
-              <content>
-                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-           </Tab>
-           <Tab text="Currency">
-              <content>
-                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-           </Tab>
-           <Tab text="Average">
               <content>
                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>

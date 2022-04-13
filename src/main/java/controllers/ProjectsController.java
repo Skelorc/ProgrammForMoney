@@ -1,13 +1,15 @@
 package controllers;
 
-import Messages.StaticMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import views.DataView;
+import views.ProjectsView;
+
+import static messages.StaticMessage.createInfoDialog;
+import static models.Model.getModel;
 
 
-public class DataController extends DataView {
+public class ProjectsController extends ProjectsView {
 
     @FXML
     public void addNewParams(ActionEvent actionEvent) {
@@ -19,9 +21,6 @@ public class DataController extends DataView {
         } else if (id_button.equals(btn_add_to.getId())) {
             getModel().saveNewParams(cb_edit_to, tf_to);
             addDataToComboBoxesAndClearTextField(cb_to, cb_edit_to, tf_to);
-        } else if (id_button.equals(btn_add_currency.getId())) {
-            getModel().saveNewParams(cb_edit_currency, tf_currency);
-            addDataToComboBoxesAndClearTextField(cb_currency, cb_edit_currency, tf_currency);
         } else if (id_button.equals(btn_add_cc.getId())) {
             getModel().saveNewParams(cb_edit_cc, tf_cc);
             addDataToComboBoxesAndClearTextField(cb_cc, cb_edit_cc, tf_cc);
@@ -50,15 +49,12 @@ public class DataController extends DataView {
     public void deleteParams(ActionEvent actionEvent) {
         Button pressed_button = (Button) actionEvent.getSource();
         String id = pressed_button.getId();
-        if (id.equals(btn_remove_to.getId())) {
-            getModel().removeParams(cb_edit_to);
-            removeParamsFromComboBoxes(cb_edit_to, cb_to);
-        } else if (id.equals(btn_remove_from.getId())) {
+         if (id.equals(btn_remove_from.getId())) {
             getModel().removeParams(cb_edit_from);
             removeParamsFromComboBoxes(cb_edit_from, cb_from);
-        } else if (id.equals(btn_remove_currency.getId())) {
-            getModel().removeParams(cb_edit_currency);
-            removeParamsFromComboBoxes(cb_edit_currency, cb_currency);
+        } else if (id.equals(btn_remove_to.getId())) {
+            getModel().removeParams(cb_edit_to);
+            removeParamsFromComboBoxes(cb_edit_to, cb_to);
         } else if (id.equals(btn_remove_cc.getId())) {
             getModel().removeParams(cb_edit_cc);
             removeParamsFromComboBoxes(cb_edit_cc, cb_cc);
@@ -83,19 +79,42 @@ public class DataController extends DataView {
         }
     }
 
-
     @FXML
     public void controlTable(ActionEvent actionEvent) {
         Button pressed_button = (Button) actionEvent.getSource();
         String id = pressed_button.getId();
         if (id.equals(btn_create.getId())) {
             getModel().saveNewDataObject(
-                            cb_to, cb_from, cb_currency, cb_cc, cb_type,
+                    cb_from, cb_to,  cb_currency, cb_cc, cb_type,
                             dp_date, cb_budget, cb_amount, tf_description,
                             cb_relations, cb_category, cb_status
                     );
-            addDataToTable(getModel().getDataModel().getDataObject());
-            StaticMessage.createInfoDialog("Data add to DB!", btn_create);
+            //addDataToTable(getModel().getProjectModel().getProject());
+            getModel().getProjectModel().setProject(null);
+            createInfoDialog("Data add to DB!", btn_create);
+        }
+        else if(id.equals(btn_update.getId()))
+        {
+            getModel().updateProject(cb_to, cb_from,cb_currency, cb_cc, cb_type,
+                    dp_date, cb_budget, cb_amount, tf_description,
+                    cb_relations, cb_category, cb_status);
+           // updateTable(getModel().getProjectModel().getProject());
+            getModel().getProjectModel().setProject(null);
+        }
+        else if(id.equals(btn_delete.getId()))
+        {
+            deleteProjectFromTable();
+            getModel().deleteProject();
+            createInfoDialog("Delete!", btn_delete);
+        }
+        else if(id.equals(btn_find.getId()))
+        {
+
+        }
+        else if(id.equals(btn_clear_fields.getId()))
+        {
+            clearFields();
+            getModel().getProjectModel().setProject(null);
         }
     }
 

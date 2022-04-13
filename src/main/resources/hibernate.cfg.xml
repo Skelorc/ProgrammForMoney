@@ -33,8 +33,11 @@
 
         <property name="hibernate.enable_lazy_load_no_trans">true</property>
 
-        <mapping class="entity.DataObject"/>
+        <mapping class="entity.Project"/>
         <mapping class="entity.Params"/>
+        <mapping class="entity.Currency"/>
+        <mapping class="entity.Relations"/>
+        <mapping class="entity.TypeCurrency"/>
         <!--<mapping class="wns.entity.GroupStudents"/>
         <mapping class="wns.entity.Discipline"/>
         <mapping class="wns.entity.Questions"/>

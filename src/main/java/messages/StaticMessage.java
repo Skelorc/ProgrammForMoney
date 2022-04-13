@@ -1,4 +1,4 @@
-package Messages;
+package messages;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -13,8 +13,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import static textConst.StringConst.TITLE;
 
 
 public class StaticMessage {

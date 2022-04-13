@@ -1,6 +1,7 @@
 package service;
 
 import entity.BaseEntity;
+import entity.Project;
 import org.apache.poi.ss.formula.functions.T;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -17,15 +18,14 @@ public abstract class ServiceImpl implements Service{
     public void saveEntity(BaseEntity o)
     {
         try (Session session = HibernateSessionFactory.getSession()) {
-            session.beginTransaction();
             try {
+                session.beginTransaction();
                 session.save(o);
                 session.getTransaction().commit();
             }
-            catch (HibernateException e)
+            catch (Exception e)
             {
                 logger.error("Error creating new Data {}!", o,e);
-                session.getTransaction().rollback();
                 throw e;
             }
         }
@@ -34,17 +34,34 @@ public abstract class ServiceImpl implements Service{
    public void updateEntity(BaseEntity o)
     {
         try (Session session = HibernateSessionFactory.getSession()) {
-            session.beginTransaction();
+
             try {
+                session.beginTransaction();
                 session.update(o);
                 session.getTransaction().commit();
             }
-            catch (HibernateException e)
+            catch (Exception e)
             {
                 logger.error("Error updating new Data {}!", o,e);
-                session.getTransaction().rollback();
                 throw e;
             }
+        }
+    }
+
+    public void delete(BaseEntity o)
+    {
+        try (Session session = HibernateSessionFactory.getSession()) {
+            try{
+                session.beginTransaction();
+                session.delete(o);
+                session.getTransaction().commit();
+            }
+            catch (Exception e)
+            {
+                logger.error("Error, when deleting entitу {}",o,e);
+                throw e;
+            }
+
         }
     }
 

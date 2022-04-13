@@ -13,7 +13,7 @@ public class StartApp extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/Main.fxml"));
         stage.setTitle(TITLE);
         Scene sc = new Scene(root, 1168, 783);
-        //sc.getStylesheets().addAll(StartApp.class.getResource("/css/style.css").toExternalForm());
+        sc.getStylesheets().addAll(StartApp.class.getResource("/css/style.css").toExternalForm());
         stage.setScene(sc);
        //stage.getIcons().add(new Image(StartApp.class.getResource("/image/logo.png").toExternalForm()));
         stage.setResizable(false);
