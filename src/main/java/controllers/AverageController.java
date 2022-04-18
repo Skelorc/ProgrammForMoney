@@ -1,4 +1,12 @@
 package controllers;
 
-public class AverageController {
+import javafx.fxml.FXML;
+import views.AverageView;
+
+public class AverageController extends AverageView {
+
+    @FXML
+    void initialize() {
+        initData();
+    }
 }

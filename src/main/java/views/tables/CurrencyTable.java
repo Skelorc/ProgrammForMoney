@@ -5,12 +5,12 @@ import entity.Relations;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import org.apache.poi.ss.formula.functions.T;
+import javafx.util.Callback;
 import service.CurrencyService;
 
 import java.time.LocalDate;
@@ -23,8 +23,6 @@ import static messages.StaticMessage.createErrorAlertDialog;
 import static models.Model.getModel;
 
 public class CurrencyTable extends AbstractTable {
-
-    private ObservableList<TableColumn> list_columns = FXCollections.observableList(new ArrayList<>());
 
     @Override
     protected void addColumnsToList() {
@@ -51,7 +49,7 @@ public class CurrencyTable extends AbstractTable {
         clearDataInTable(tableView);
         ObservableList<Currency> currencyList = getModel().getCurrencyList();
         tableView.setItems(currencyList);
-        tableView.getColumns().addAll(list_columns);
+        tableView.getColumns().setAll(list_columns);
     }
 
 
@@ -66,33 +64,24 @@ public class CurrencyTable extends AbstractTable {
                 });
                 column.setOnEditCommit(param -> {
                     String newValue = param.getNewValue();
-                    int row = param.getTablePosition().getRow();
-                    Currency currency = param.getTableView().getItems().get(row);
+                    int row_index = param.getTablePosition().getRow();
+                    Currency currency = param.getTableView().getItems().get(row_index);
                     LocalDate localDate;
                     try {
                         localDate = LocalDate.parse(newValue);
-                        currency.setDate(localDate);
-                        getModel().updateCurrency(currency);
+                        getModel().updateCurrencyDate(currency,localDate);
+                        param.getTableView().refresh();
                     } catch (DateTimeParseException e) {
                         createErrorAlertDialog("Please, write new date next format : YEAR-MONTH-DAY ");
                     }
                 });
+
                 break;
             case "Month":
-                column.setCellValueFactory(param -> {
-                    LocalDate date = param.getValue().getDate();
-                    if (date == null)
-                        return new SimpleObjectProperty<>("");
-                    return new SimpleObjectProperty<>(date.getMonth().toString());
-                });
+                column.setCellValueFactory(new PropertyValueFactory<>("month"));
                 break;
             case "Year":
-                column.setCellValueFactory(param -> {
-                    LocalDate date = param.getValue().getDate();
-                    if (date == null)
-                        return new SimpleObjectProperty<>("");
-                    return new SimpleObjectProperty<>(String.valueOf(date.getYear()));
-                });
+                column.setCellValueFactory(new PropertyValueFactory<>("year"));
                 break;
             default:
                 column.setCellValueFactory(param -> {
@@ -101,15 +90,13 @@ public class CurrencyTable extends AbstractTable {
                     return new SimpleObjectProperty<>(relations.getValue());
                 });
                 column.setOnEditCommit(event -> {
-                    String newValue = event.getNewValue();
-                    String name_table = event.getTablePosition().getTableColumn().getText();
-                    int row = event.getTablePosition().getRow();
-                    Currency currency = event.getTableView().getItems().get(row);
+                    Currency currency = event.getTableView().getItems().get(event.getTablePosition().getRow());
                     Set<Relations> relations_list = currency.getRelations_list();
-                    Relations relations = relations_list.stream().filter(x -> x.getRelation().equals(name_table)).findAny().orElse(null);
-                    relations.setValue(newValue);
-                    getModel().updateCurrency(currency);
-                });
+                    Relations relations = relations_list.stream().filter(x -> x.getRelation().equals(event.getTablePosition().getTableColumn().getText())).findAny().orElse(null);
+                            String newValue = event.getNewValue();
+                            getModel().updateCurrencyRelations(currency,relations,newValue);
+                }
+                );
                 break;
         }
         column.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -126,21 +113,20 @@ public class CurrencyTable extends AbstractTable {
 
     @Override
     public void addRow(TableView tableView) {
-        TablePosition pos = tableView.getFocusModel().getFocusedCell();
-        tableView.getSelectionModel().clearSelection();
         Currency currency = new Currency();
         currency.setDate(LocalDate.now());
-        for (int i = 3; i < list_columns.size(); i++) {
-            String relation = list_columns.get(i).getText();
+        for (int i = 3; i < tableView.getColumns().size(); i++) {
+            TableColumn<Currency, String> column = (TableColumn<Currency, String>) tableView.getColumns().get(i);
+            String relation = column.getText();
             Relations relations = new Relations();
             relations.setRelation(relation);
             relations.setCurrency(currency);
             currency.getRelations_list().add(relations);
         }
         CurrencyService service = new CurrencyService();
-        service.saveEntity(currency);
+        service.saveOrUpdate(currency);
         getModel().addNewCurrencyToList(currency);
-        tableView.getSelectionModel().select(0, pos.getTableColumn());
+        tableView.getSelectionModel().select(0);
         tableView.scrollTo(0);
     }
 
@@ -149,8 +135,7 @@ public class CurrencyTable extends AbstractTable {
         TableColumn column_for_delete = new TableColumn<>();
         for (int i = 0; i < tableView.getColumns().size(); i++) {
             TableColumn tableColumn = (TableColumn) tableView.getColumns().get(i);
-            if(tableColumn.getText().equals(getModel().getRelations().getRelation()))
-            {
+            if (tableColumn.getText().equals(getModel().getRelations().getRelation())) {
                 column_for_delete = tableColumn;
             }
         }

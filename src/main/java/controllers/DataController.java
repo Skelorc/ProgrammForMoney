@@ -3,13 +3,13 @@ package controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import views.ProjectsView;
+import views.DataView;
 
 import static messages.StaticMessage.createInfoDialog;
 import static models.Model.getModel;
 
 
-public class ProjectsController extends ProjectsView {
+public class DataController extends DataView {
 
     @FXML
     public void addNewParams(ActionEvent actionEvent) {
@@ -17,31 +17,25 @@ public class ProjectsController extends ProjectsView {
         String id_button = pressed_button.getId();
         if (id_button.equals(btn_add_from.getId())) {
             getModel().saveNewParams(cb_edit_from, tf_from);
-            addDataToComboBoxesAndClearTextField(cb_from, cb_edit_from, tf_from);
+            clearTextField(tf_from);
         } else if (id_button.equals(btn_add_to.getId())) {
             getModel().saveNewParams(cb_edit_to, tf_to);
-            addDataToComboBoxesAndClearTextField(cb_to, cb_edit_to, tf_to);
+            clearTextField(tf_to);
         } else if (id_button.equals(btn_add_cc.getId())) {
             getModel().saveNewParams(cb_edit_cc, tf_cc);
-            addDataToComboBoxesAndClearTextField(cb_cc, cb_edit_cc, tf_cc);
+            clearTextField(tf_cc);
         } else if (id_button.equals(btn_add_type.getId())) {
             getModel().saveNewParams(cb_edit_type, tf_type);
-            addDataToComboBoxesAndClearTextField(cb_type, cb_edit_type, tf_type);
+            clearTextField(tf_type);
         } else if (id_button.equals(btn_add_budget.getId())) {
             getModel().saveNewParams(cb_edit_budget, tf_budget);
-            addDataToComboBoxesAndClearTextField(cb_budget, cb_edit_budget, tf_budget);
-        } else if (id_button.equals(btn_add_amount.getId())) {
-            getModel().saveNewParams(cb_edit_amount, tf_amount);
-            addDataToComboBoxesAndClearTextField(cb_amount, cb_edit_amount, tf_amount);
-        } else if (id_button.equals(btn_add_relations.getId())) {
-            getModel().saveNewParams(cb_edit_relations, tf_relations);
-            addDataToComboBoxesAndClearTextField(cb_relations, cb_edit_relations, tf_relations);
+            clearTextField(tf_budget);
         } else if (id_button.equals(btn_add_category.getId())) {
             getModel().saveNewParams(cb_edit_category, tf_category);
-            addDataToComboBoxesAndClearTextField(cb_category, cb_edit_category, tf_category);
+            clearTextField(tf_category);
         } else if (id_button.equals(btn_add_status.getId())) {
             getModel().saveNewParams(cb_edit_status, tf_status);
-            addDataToComboBoxesAndClearTextField(cb_status, cb_edit_status, tf_status);
+            clearTextField(tf_status);
         }
     }
 
@@ -51,31 +45,30 @@ public class ProjectsController extends ProjectsView {
         String id = pressed_button.getId();
          if (id.equals(btn_remove_from.getId())) {
             getModel().removeParams(cb_edit_from);
-            removeParamsFromComboBoxes(cb_edit_from, cb_from);
+            removeParamsFromComboBoxes(cb_edit_from);
+            removeParamsFromComboBoxes(cb_from);
         } else if (id.equals(btn_remove_to.getId())) {
             getModel().removeParams(cb_edit_to);
-            removeParamsFromComboBoxes(cb_edit_to, cb_to);
+            removeParamsFromComboBoxes(cb_edit_to);
+            removeParamsFromComboBoxes(cb_to);
         } else if (id.equals(btn_remove_cc.getId())) {
             getModel().removeParams(cb_edit_cc);
-            removeParamsFromComboBoxes(cb_edit_cc, cb_cc);
+            removeParamsFromComboBoxes(cb_edit_cc);
+            removeParamsFromComboBoxes(cb_cc);
         } else if (id.equals(btn_remove_type.getId())) {
             getModel().removeParams(cb_edit_type);
-            removeParamsFromComboBoxes(cb_edit_type, cb_type);
+            removeParamsFromComboBoxes(cb_edit_type);
+            removeParamsFromComboBoxes(cb_type);
         } else if (id.equals(btn_remove_budget.getId())) {
             getModel().removeParams(cb_edit_budget);
-            removeParamsFromComboBoxes(cb_edit_budget, cb_budget);
-        } else if (id.equals(btn_remove_amount.getId())) {
-            getModel().removeParams(cb_edit_amount);
-            removeParamsFromComboBoxes(cb_edit_amount, cb_amount);
-        } else if (id.equals(btn_remove_relations.getId())) {
-            getModel().removeParams(cb_edit_relations);
-            removeParamsFromComboBoxes(cb_edit_relations, cb_relations);
+            removeParamsFromComboBoxes(cb_edit_budget);
+            removeParamsFromComboBoxes(cb_budget);
         } else if (id.equals(btn_remove_category.getId())) {
             getModel().removeParams(cb_edit_category);
-            removeParamsFromComboBoxes(cb_edit_category, cb_category);
+            removeParamsFromComboBoxes(cb_edit_category);
         } else if (id.equals(btn_remove_status.getId())) {
             getModel().removeParams(cb_edit_status);
-            removeParamsFromComboBoxes(cb_edit_status, cb_status);
+            removeParamsFromComboBoxes(cb_edit_status);
         }
     }
 
@@ -86,8 +79,7 @@ public class ProjectsController extends ProjectsView {
         if (id.equals(btn_create.getId())) {
             getModel().saveNewDataObject(
                     cb_from, cb_to,  cb_currency, cb_cc, cb_type,
-                            dp_date, cb_budget, cb_amount, tf_description,
-                            cb_relations, cb_category, cb_status
+                            dp_date, cb_budget, tf_amount, tf_description
                     );
             //addDataToTable(getModel().getProjectModel().getProject());
             getModel().getProjectModel().setProject(null);
@@ -95,16 +87,13 @@ public class ProjectsController extends ProjectsView {
         }
         else if(id.equals(btn_update.getId()))
         {
-            getModel().updateProject(cb_to, cb_from,cb_currency, cb_cc, cb_type,
-                    dp_date, cb_budget, cb_amount, tf_description,
-                    cb_relations, cb_category, cb_status);
            // updateTable(getModel().getProjectModel().getProject());
             getModel().getProjectModel().setProject(null);
         }
         else if(id.equals(btn_delete.getId()))
         {
-            deleteProjectFromTable();
-            getModel().deleteProject();
+           /* deleteProjectFromTable();
+            getModel().deleteProject(index);*/
             createInfoDialog("Delete!", btn_delete);
         }
         else if(id.equals(btn_find.getId()))

@@ -29,7 +29,7 @@ public class ParamsService extends ServiceImpl{
         Params params;
         try (Session session = HibernateSessionFactory.getSession()) {
             session.beginTransaction();
-            Query query = session.createQuery("FROM Params as p WHERE p.name like :name")
+            Query query = session.createQuery("FROM Params as p WHERE p.name = :name")
                     .setParameter("name", name);
             params = (Params) query.uniqueResult();
             return params;

@@ -50,4 +50,15 @@ public class Currency implements BaseEntity{
                 ", relations_list=" + relations_list.size() +
                 '}';
     }
+
+    public String getMonth()
+    {
+        return String.valueOf(date.getMonth().getValue());
+    }
+
+    public String getYear()
+    {
+        return String.valueOf(date.getYear());
+    }
+
 }

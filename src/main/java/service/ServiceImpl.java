@@ -15,12 +15,12 @@ public abstract class ServiceImpl implements Service{
 
     private final Logger logger = LoggerFactory.getLogger(ServiceImpl.class);
 
-    public void saveEntity(BaseEntity o)
+    public void saveOrUpdate(BaseEntity o)
     {
         try (Session session = HibernateSessionFactory.getSession()) {
             try {
                 session.beginTransaction();
-                session.save(o);
+                session.saveOrUpdate(o);
                 session.getTransaction().commit();
             }
             catch (Exception e)
@@ -31,22 +31,6 @@ public abstract class ServiceImpl implements Service{
         }
     }
 
-   public void updateEntity(BaseEntity o)
-    {
-        try (Session session = HibernateSessionFactory.getSession()) {
-
-            try {
-                session.beginTransaction();
-                session.update(o);
-                session.getTransaction().commit();
-            }
-            catch (Exception e)
-            {
-                logger.error("Error updating new Data {}!", o,e);
-                throw e;
-            }
-        }
-    }
 
     public void delete(BaseEntity o)
     {

@@ -1,5 +1,6 @@
 package service;
 
+import entity.BaseEntity;
 import entity.Currency;
 import entity.Params;
 import org.hibernate.Session;
@@ -44,6 +45,4 @@ public class CurrencyService extends ServiceImpl {
             return list;
         }
     }
-
-
 }

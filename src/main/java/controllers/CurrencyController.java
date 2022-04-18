@@ -1,6 +1,5 @@
 package controllers;
 
-import entity.Currency;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -51,10 +50,8 @@ public class CurrencyController extends CurrencyView {
         }
         if(id_button.equals(btn_remove_row.getId()))
         {
-            int selectedIndex = getTableView().getSelectionModel().getSelectedIndex();
-            System.out.println(selectedIndex);
-            Currency selectedItem = getTableView().getSelectionModel().getSelectedItem();
-            getModel().deleteCurrency(selectedItem);
+            int index = getTableView().getSelectionModel().getSelectedIndex();
+            getModel().deleteCurrency(index);
             createInfoDialog("Delete row!", btn_remove_row);
         }
         if(id_button.equals(btn_remove_column.getId()))

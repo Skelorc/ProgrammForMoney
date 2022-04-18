@@ -19,8 +19,11 @@ public class Project implements BaseEntity{
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String from_location;
-    private String to_project;
+    @Column(name = "from_location")
+    private String from;
+    @Column(name = "to_project")
+    private String to;
+
     private String currency;
     private String NCC;
     private String type;
@@ -33,9 +36,9 @@ public class Project implements BaseEntity{
     private String status;
 
 
-    public Project(String from_location, String to_project, String currency, String NCC, String type, LocalDate date, String budget, String amount, String description) {
-        this.from_location = from_location;
-        this.to_project = to_project;
+    public Project(String from, String to, String currency, String NCC, String type, LocalDate date, String budget, String amount, String description) {
+        this.from = from;
+        this.to = to;
         this.currency = currency;
         this.NCC = NCC;
         this.type = type;
@@ -50,12 +53,12 @@ public class Project implements BaseEntity{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Project that = (Project) o;
-        return Objects.equals(from_location, that.from_location) && Objects.equals(to_project, that.to_project) && Objects.equals(currency, that.currency) && Objects.equals(NCC, that.NCC) && Objects.equals(type, that.type) && Objects.equals(date, that.date) && Objects.equals(budget, that.budget) && Objects.equals(amount, that.amount) && Objects.equals(description, that.description);
+        return Objects.equals(from, that.from) && Objects.equals(to, that.to) && Objects.equals(currency, that.currency) && Objects.equals(NCC, that.NCC) && Objects.equals(type, that.type) && Objects.equals(date, that.date) && Objects.equals(budget, that.budget) && Objects.equals(amount, that.amount) && Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(from_location, to_project, currency, NCC, type, date, budget, amount, description);
+        return Objects.hash(from, to, currency, NCC, type, date, budget, amount, description);
     }
 
 

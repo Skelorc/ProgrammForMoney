@@ -9,9 +9,8 @@ import lombok.Getter;
 import java.util.ArrayList;
 
 @Getter
-public class ProjectsTable extends AbstractTable {
+public class DataTable extends AbstractTable {
 
-    private ArrayList<TableColumn<Project, String>> list_columns;
     private ArrayList<Project> all_data;
 
     @Override
@@ -20,7 +19,6 @@ public class ProjectsTable extends AbstractTable {
     }
 
     protected void addColumnsToList() {
-        list_columns = new ArrayList<>();
         list_columns.add(new TableColumn<>("from_location"));
         list_columns.add(new TableColumn<>("to_project"));
         list_columns.add(new TableColumn<>("Currency"));

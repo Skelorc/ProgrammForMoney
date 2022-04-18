@@ -3,12 +3,13 @@ package models;
 import entity.Params;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import lombok.Getter;
 import lombok.Setter;
 import service.ParamsService;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -16,38 +17,49 @@ import java.util.Set;
 public class ParamsModel {
 
     private Params params;
-    private ObservableList<String> observableListParams;
+    private ObservableList<String> all_params;
+    private ObservableList<String> list_for_box;
+    private Map<String, ObservableList<String>> map_params;
 
     public void saveParams(String name, String value ) {
         ParamsService paramsService = new ParamsService();
             params = paramsService.findParamsByName(name);
             if (params == null) {
                 params = new Params();
-                params.setName(name);
+                String name_param = name.substring(name.lastIndexOf("_")+1);
+                params.setName(name_param);
                 params.getValues().add(value);
-                paramsService.saveEntity(params);
+                paramsService.saveOrUpdate(params);
+                map_params.put(params.getName(), FXCollections.observableList(new ArrayList<>(params.getValues())));
             } else {
                 params.getValues().add(value);
-                paramsService.updateEntity(params);
+                paramsService.saveOrUpdate(params);
+                ObservableList<String> strings = map_params.get(params.getName());
+                strings.add(value);
+                map_params.put(params.getName(), strings);
             }
-    }
 
-    public ObservableList<String> getParamsFromWord(String word)
-    {
-        ParamsService paramsService = new ParamsService();
-        Params paramsByName = paramsService.findParamsByName(word);
-        Set<String> values = paramsByName.getValues();
-        observableListParams = FXCollections.observableArrayList(values);
-        return observableListParams;
-    }
-
-    public List<Params> getAllParams() {
-        ParamsService paramsService = new ParamsService();
-        return paramsService.getAllValues();
     }
 
     public void deleteParams(String params, String value) {
         ParamsService paramsService = new ParamsService();
         paramsService.deleteValueFromParams(params, value);
     }
+
+    public ParamsModel() {
+        ParamsService paramsService = new ParamsService();
+        map_params = new HashMap<>();
+        List<Params> allValues = paramsService.getAllValues();
+        for (Params x : allValues) {
+            if(!x.getValues().isEmpty())
+            map_params.put(x.getName(), FXCollections.observableArrayList(new ArrayList<>(x.getValues())));
+        }
+    }
+
+    public ObservableList<String> getParamsFromWord(String word) {
+        ObservableList<String> list = map_params.get(word);
+        return list;
+    }
+
+
 }

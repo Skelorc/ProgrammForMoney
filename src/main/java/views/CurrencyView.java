@@ -26,23 +26,6 @@ public class CurrencyView extends AbstractView{
     @FXML
     protected DatePicker dp_date;
 
-    /*@Override
-    protected void addListenerToTable() {
-        tableView.setOnMouseClicked(event -> {
-            Currency selectedItem = tableView.getSelectionModel().getSelectedItem();
-            if (selectedItem != null) {
-                String relations = selectedItem.getRelations();
-                String[] split = relations.split("/");
-                cb_first_value.getSelectionModel().select(split[0]);
-                cb_second_value.getSelectionModel().select(split[1]);
-                dp_date.setValue(selectedItem.getDate());
-                tf_relations.setText(relations);
-                tf_value.setText(selectedItem.getValue());
-                getModel().setCurrencyForEdit(selectedItem);
-            }
-        });
-    }*/
-
     @Override
     protected void addValuesToComboBox() {
         ObservableList<String> types = getModel().getCurrencyTypes();

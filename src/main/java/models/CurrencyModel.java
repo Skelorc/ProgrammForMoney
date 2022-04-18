@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static messages.StaticMessage.createErrorAlertDialog;
-
 
 @Getter
 @Setter
@@ -39,15 +37,11 @@ public class CurrencyModel {
             typeCurrency = new TypeCurrency();
             typeCurrency.setType(type);
             list_types.add(type);
-            service.saveEntity(typeCurrency);
+            service.saveOrUpdate(typeCurrency);
         }
     }
 
-    public void delete(Currency currency) {
-        CurrencyService currencyService = new CurrencyService();
-        currencyService.delete(currency);
-        list_currency.remove(currency);
-    }
+
 
     public void removeTypeCurrency(String selectedItem) {
         TypeCurrencyService typeCurrencyService = new TypeCurrencyService();
@@ -58,41 +52,35 @@ public class CurrencyModel {
 
     public void addNewRelations(String first_value, String second_value) throws Exception {
         CurrencyService currencyService = new CurrencyService();
-        ArrayList<Currency> list = (ArrayList<Currency>) currencyService.findListByDate(LocalDate.now());
-        if (list.isEmpty()) {
-            currency = new Currency();
-            currency.setDate(LocalDate.now());
-            for (String rel : list_name_columns) {
-                relations = new Relations();
-                relations.setRelation(rel);
-                relations.setCurrency(currency);
-                currency.getRelations_list().add(relations);
-            }
-            createRelations(currency, first_value, second_value);
-            currencyService.saveEntity(currency);
-            list_currency.add(currency);
-        } else {
-            for (int i = 0; i < list.size(); i++) {
-                Currency cur = list.get(i);
-                int j = list_currency.indexOf(cur);
-                createRelations(cur, first_value, second_value);
-                currencyService.updateEntity(cur);
-                list_currency.set(j, cur);
+        for (int i = 0; i < list_currency.size(); i++) {
+            Currency currency = list_currency.get(i);
+            relations = new Relations();
+            relations.setRelation(first_value + "/" + second_value);
+            relations.setCurrency(currency);
+            relations.setValue("");
+            boolean added = currency.getRelations_list().add(relations);
+            if (added) {
+                list_name_columns.add(relations.getRelation());
+                currencyService.saveOrUpdate(currency);
+                list_currency.set(i, currency);
+            } else {
+                throw new Exception();
             }
         }
     }
 
-    private void createRelations(Currency currency, String first_value, String second_value) throws Exception {
-        relations = new Relations();
-        relations.setRelation(first_value + "/" + second_value);
-        relations.setCurrency(currency);
-        relations.setValue("");
-        boolean added = currency.getRelations_list().add(relations);
-        if (added)
-            list_name_columns.add(relations.getRelation());
-        else {
-            throw new Exception();
+
+    public void deleteRelations(String relation) {
+        CurrencyService service = new CurrencyService();
+        for (int i = 0; i < list_currency.size(); i++) {
+            Currency currency = list_currency.get(i);
+            int index = list_currency.indexOf(currency);
+            relations = currency.getRelations_list().stream().filter(x -> x.getRelation().equals(relation)).findAny().orElse(null);
+            currency.getRelations_list().remove(relations);
+            service.saveOrUpdate(currency);
+            list_currency.set(index, currency);
         }
+        list_name_columns.remove(relation);
     }
 
 
@@ -122,27 +110,37 @@ public class CurrencyModel {
         list_currency.add(currency);
     }
 
-    public void updateCurrency(Currency currency) {
+    public void updateCurrencyDate(Currency currency, LocalDate localDate) {
+        Currency old = list_currency.stream().filter(x -> x.getId() == currency.getId()).findAny().orElse(null);
+        old.setDate(localDate);
         CurrencyService service = new CurrencyService();
-        Currency old = service.findById(currency.getId());
-        int j = list_currency.indexOf(old);
-        old.setDate(currency.getDate());
-        old.setRelations_list(currency.getRelations_list());
-        service.updateEntity(old);
-        list_currency.set(j, old);
+        service.saveOrUpdate(old);
     }
 
-    public void deleteRelations(String relation) {
-        CurrencyService service = new CurrencyService();
+
+    public void updateCurrencyRelations(Currency currency, Relations relations, String relation) {
+        System.out.println(currency.getId());
         for (int i = 0; i < list_currency.size(); i++) {
-            Currency currency = list_currency.get(i);
-            int index = list_currency.indexOf(currency);
-            relations = currency.getRelations_list().stream().filter(x -> x.getRelation().equals(relation)).findAny().orElse(null);
-            currency.getRelations_list().remove(relations);
-            service.updateEntity(currency);
-            list_currency.set(index,currency);
+            Currency from_list = list_currency.get(i);
+            if(from_list.getId()== currency.getId())
+            {
+                from_list.getRelations_list().remove(relations);
+                relations.setValue(relation);
+                from_list.getRelations_list().add(relations);
+                from_list.setDate(currency.getDate());
+                from_list.setRelations_list(currency.getRelations_list());
+                CurrencyService service = new CurrencyService();
+                service.saveOrUpdate(from_list);
+            }
         }
-        list_name_columns.remove(relation);
+    }
+
+    public void delete(int index) {
+        currency = list_currency.get(index);
+        CurrencyService currencyService = new CurrencyService();
+        currencyService.delete(currency);
+        list_currency.remove(index);
+        currency = null;
     }
 }
 
