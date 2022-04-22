@@ -22,17 +22,17 @@
                   <fx:include fx:id="AverageTab" source="tabs/Average.fxml" />
               </content>
            </Tab>
-           <Tab text="Currency">
-              <content>
-                 <fx:include fx:id="CurrencyTab" source="tabs/Currency.fxml" />
-              </content>
-           </Tab>
            <Tab text="Project">
               <content>
                  <fx:include fx:id="ProjectTab" source="tabs/Project.fxml" />
               </content>
            </Tab>
-          <Tab text="Cash">
+            <Tab text="Currency">
+                <content>
+                    <fx:include fx:id="CurrencyTab" source="tabs/Currency.fxml" />
+                </content>
+            </Tab>
+         <!-- <Tab text="Cash">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="714.0" prefWidth="1122.0">
                      <children>
@@ -85,7 +85,7 @@
               <content>
                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
-           </Tab>
+           </Tab>-->
         </tabs>
       </TabPane>
    </children>

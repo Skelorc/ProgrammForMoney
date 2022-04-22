@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -24,12 +23,12 @@ public class Relations implements BaseEntity,Comparable{
     private Currency currency;
 
     private String relation;
-    private String value;
+    private String value_relation;
 
-    public Relations(Currency currency, String relation, String value) {
+    public Relations(Currency currency, String relation, String value_relation) {
         this.currency = currency;
         this.relation = relation;
-        this.value = value;
+        this.value_relation = value_relation;
     }
 
     @Override
@@ -51,7 +50,7 @@ public class Relations implements BaseEntity,Comparable{
                 "id=" + id +
                 ", currency=" + currency +
                 ", relation='" + relation + '\'' +
-                ", value='" + value + '\'' +
+                ", value='" + value_relation + '\'' +
                 '}';
     }
 

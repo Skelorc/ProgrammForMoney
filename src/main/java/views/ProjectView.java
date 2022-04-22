@@ -18,32 +18,43 @@ public class ProjectView extends AbstractView{
     @FXML
     protected ComboBox<String> cb_to,cb_from,cb_relations,cb_category,cb_status;
     @FXML
-    protected Button btn_add, btn_remove;
+    protected Button btn_add,btn_show_all,btn_clear_fields, btn_find, btn_remove;
     @FXML
-    private TableView<Project> tableView;
+    private TableView<Project> tableView_project;
 
     @Override
     protected void addValuesToComboBox() {
-        ObservableList<String> relations = getModel().getColumns();
         Map<String, ObservableList<String>> allParams = getModel().getAllParams();
         cb_to.setItems(allParams.get("to"));
         cb_from.setItems(allParams.get("from"));
-        cb_relations.setItems(relations);
+        cb_relations.setItems(allParams.get("relations"));
         cb_category.setItems(allParams.get("category"));
         cb_status.setItems(allParams.get("status"));
     }
 
-
-
     @Override
     protected void createTable() {
         table = new ProjectTable();
-        table.createTableView(tableView);
+        table.createTableView(tableView_project);
+    }
+
+    protected void showFilteredProjectsList()
+    {
+        tableView_project.setItems(getModel().getFilteredProjects());
+    }
+
+    protected void showAll()
+    {
+        tableView_project.setItems(getModel().getProjectForTable(tableView_project.getId()));
     }
 
     @Override
     public void clearFields() {
-
+        cb_to.getSelectionModel().clearSelection();
+        cb_from.getSelectionModel().clearSelection();
+        cb_relations.getSelectionModel().clearSelection();
+        cb_category.getSelectionModel().clearSelection();
+        cb_status.getSelectionModel().clearSelection();
     }
 
     @Override

@@ -1,8 +1,6 @@
 package views;
 
-import entity.Params;
 import entity.Project;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -20,30 +18,27 @@ public class DataView extends AbstractView {
     private List<ComboBox<String>> boxes;
 
     @FXML
-    protected TextField tf_from, tf_to, tf_cc, tf_type,
-            tf_budget, tf_amount, tf_description, tf_category, tf_status;
+    protected TextField tf_from, tf_to, tf_ncc, tf_type,
+            tf_budget, tf_amount, tf_description, tf_relations, tf_category, tf_status;
     @FXML
-    protected ComboBox<String> cb_from, cb_to, cb_currency, cb_cc, cb_type, cb_budget,
-            cb_edit_from, cb_edit_to, cb_edit_cc, cb_edit_type, cb_edit_budget, cb_edit_status, cb_edit_category;
+    protected ComboBox<String> cb_from, cb_to, cb_currency, cb_ncc, cb_type, cb_budget,
+            cb_edit_from, cb_edit_to, cb_edit_ncc, cb_edit_type, cb_edit_budget, cb_edit_relations, cb_edit_status, cb_edit_category;
 
     @FXML
-    protected Button btn_add_from, btn_add_to, btn_add_cc, btn_add_type, btn_add_budget, btn_add_category, btn_add_status,
-            btn_remove_from, btn_remove_to, btn_remove_cc, btn_remove_type, btn_remove_budget, btn_remove_category, btn_remove_status,
-            btn_create, btn_update, btn_clear_fields, btn_find, btn_delete;
-
-    @FXML
-    private CheckBox check_to, check_from, check_cc, check_type, check_date, check_budget, check_amount, check_description;
+    protected Button btn_add_from, btn_add_to, btn_add_ncc, btn_add_type, btn_add_budget, btn_add_category, btn_add_status, btn_add_relations,
+            btn_remove_from, btn_remove_to, btn_remove_ncc, btn_remove_type, btn_remove_budget, btn_remove_relations, btn_remove_category, btn_remove_status,
+            btn_add,btn_show_all,btn_clear_fields, btn_find, btn_delete;
 
     @FXML
     protected DatePicker dp_date;
     @FXML
-    protected TableView<Project> tableView;
+    protected TableView<Project> tableView_data;
 
 
     @Override
     protected void createTable() {
         table = new DataTable();
-        table.createTableView(tableView);
+        table.createTableView(tableView_data);
     }
 
     @Override
@@ -59,55 +54,24 @@ public class DataView extends AbstractView {
         }
     }
 
-    public void removeParamsFromComboBoxes(ComboBox<String> box_edit) {
-        String value = box_edit.getSelectionModel().getSelectedItem();
-        box_edit.getItems().remove(value);
-    }
-
-    public void deleteProjectFromTable() {
-        Project project = getModel().getProjectModel().getProject();
-        tableView.getItems().remove(project);
-    }
-
     @Override
     public void clearFields() {
         for (ComboBox<String> box : boxes) {
-            box.getSelectionModel().selectFirst();
+            box.getSelectionModel().clearSelection();
         }
         dp_date.getEditor().clear();
         clearTextField(tf_description);
+        clearTextField(tf_amount);
     }
 
-    protected void find() {
-        List<String> params = new ArrayList<>();
-        if (check_to.isSelected()) {
-            params.add(cb_to.getSelectionModel().getSelectedItem());
-        }
-        if (check_from.isSelected()) {
-            params.add(cb_from.getSelectionModel().getSelectedItem());
-        }
-        if (check_cc.isSelected()) {
-            params.add(cb_cc.getSelectionModel().getSelectedItem());
-        }
-        if (check_type.isSelected()) {
-            params.add(cb_type.getSelectionModel().getSelectedItem());
-        }
-        if (check_date.isSelected()) {
-            params.add(dp_date.getValue().toString());
-        }
-        if (check_budget.isSelected()) {
-            params.add(cb_budget.getSelectionModel().getSelectedItem());
-        }
-        if (check_description.isSelected()) {
-            params.add(tf_description.getText());
-        }
-        ObservableList<Project> objects = tableView.getItems();
-        for (int i = 0; i < objects.size(); i++) {
-            Project project = objects.get(i);
-            for (int j = 0; j < params.size(); j++) {
+    protected void showFilteredProjectsList()
+    {
+        tableView_data.setItems(getModel().getFilteredProjects());
+    }
 
-            }
-        }
+    protected void showAll()
+    {
+        tableView_data.setItems(getModel().getProjectForTable(tableView_data.getId()));
     }
 
     @Override
@@ -115,15 +79,16 @@ public class DataView extends AbstractView {
         boxes = new ArrayList<>();
         boxes.add(cb_edit_from);
         boxes.add(cb_edit_to);
-        boxes.add(cb_edit_cc);
+        boxes.add(cb_edit_ncc);
         boxes.add(cb_edit_type);
         boxes.add(cb_edit_budget);
         boxes.add(cb_edit_status);
         boxes.add(cb_edit_category);
+        boxes.add(cb_edit_relations);
         boxes.add(cb_to);
         boxes.add(cb_from);
         boxes.add(cb_currency);
-        boxes.add(cb_cc);
+        boxes.add(cb_ncc);
         boxes.add(cb_type);
         boxes.add(cb_budget);
     }

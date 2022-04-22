@@ -28,7 +28,7 @@
                     <Font name="Segoe UI Bold" size="15.0" />
                 </font>
             </Label>
-            <TableView fx:id="tableView_currency" layoutX="1.0" layoutY="37.0" prefHeight="261.0" prefWidth="1168.0" tableMenuButtonVisible="true">
+            <TableView fx:id="tableView_average" layoutX="1.0" layoutY="37.0" prefHeight="261.0" prefWidth="1168.0" tableMenuButtonVisible="true">
                 <columnResizePolicy>
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                 </columnResizePolicy>
@@ -42,19 +42,29 @@
                   <TableColumn prefWidth="75.0" text="Amount" />
                 </columns>
             </TableView>
-            <HBox alignment="CENTER" layoutX="420.0" layoutY="484.0" prefHeight="27.0" prefWidth="405.0" spacing="100.0">
+            <HBox alignment="CENTER" layoutX="420.0" layoutY="484.0" prefHeight="27.0" prefWidth="405.0" spacing="10.0">
                <children>
-                  <Button fx:id="btn_add_relations_currency" mnemonicParsing="false" text="Add" textFill="#28942f">
+                  <Button fx:id="btn_add" mnemonicParsing="false" onAction="#averageControls" text="Add" textFill="#28942f">
                       <font>
                           <Font name="Segoe UI Bold" size="13.0" />
                       </font>
                   </Button>
-                  <Button fx:id="btn_update_relations_currency" mnemonicParsing="false" text="Update" textFill="#3131c9">
-                      <font>
-                          <Font name="Segoe UI Bold" size="13.0" />
-                      </font>
+                  <Button fx:id="btn_show_all" mnemonicParsing="false" onAction="#averageControls" text="Show All Data" textFill="#2d8a0e">
+                     <font>
+                        <Font name="Segoe UI Bold" size="13.0" />
+                     </font>
                   </Button>
-                  <Button fx:id="btn_remove_relations_currency" mnemonicParsing="false" text="Remove" textFill="#971717">
+                  <Button fx:id="btn_find" mnemonicParsing="false" onAction="#averageControls" text="Find" textFill="#3131c9">
+                     <font>
+                        <Font name="Segoe UI Bold" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btn_clear_fields" mnemonicParsing="false" onAction="#averageControls" text="Clear Fields" textFill="#3131c9">
+                     <font>
+                        <Font name="Segoe UI Bold" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btn_remove" mnemonicParsing="false" onAction="#averageControls" text="Remove" textFill="#971717">
                       <font>
                           <Font name="Segoe UI Bold" size="13.0" />
                       </font>
@@ -76,31 +86,31 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ComboBox fx:id="cb_from" prefHeight="25.0" prefWidth="109.0" promptText="to..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="cb_to" prefHeight="25.0" prefWidth="109.0" promptText="to..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="To" underline="true" GridPane.columnIndex="1">
                       <font>
                           <Font name="Segoe UI Bold" size="15.0" />
                       </font>
                   </Label>
-                  <ComboBox fx:id="cb_from1" prefHeight="25.0" prefWidth="111.0" promptText="currency..." GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="cb_currency" prefHeight="25.0" prefWidth="111.0" promptText="currency..." GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Label text="Currency" underline="true" GridPane.columnIndex="2">
                      <font>
                         <Font name="Segoe UI Bold" size="15.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="cb_from2" prefHeight="25.0" prefWidth="65.0" promptText="cc..." GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="cb_ncc" prefHeight="25.0" prefWidth="65.0" promptText="cc..." GridPane.columnIndex="3" GridPane.rowIndex="1" />
                   <Label text="NCC" underline="true" GridPane.columnIndex="3">
                      <font>
                         <Font name="Segoe UI Bold" size="15.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="cb_from3" prefHeight="25.0" prefWidth="87.0" promptText="type..." GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="cb_type" prefHeight="25.0" prefWidth="87.0" promptText="type..." GridPane.columnIndex="4" GridPane.rowIndex="1" />
                   <Label prefHeight="19.0" prefWidth="35.0" text="Type" underline="true" GridPane.columnIndex="4">
                      <font>
                         <Font name="Segoe UI Bold" size="15.0" />
                      </font>
                   </Label>
-                  <DatePicker prefHeight="25.0" prefWidth="99.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                  <DatePicker fx:id="dp_date" prefHeight="25.0" prefWidth="99.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                   <Label prefHeight="19.0" prefWidth="35.0" text="Date" underline="true" GridPane.columnIndex="5">
                      <font>
                         <Font name="Segoe UI Bold" size="15.0" />
@@ -111,13 +121,13 @@
                         <Font name="Segoe UI Bold" size="15.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="cb_from7" prefHeight="25.0" prefWidth="113.0" promptText="from..." GridPane.rowIndex="1" />
-                  <Label prefHeight="19.0" prefWidth="68.0" text="From" underline="true">
+                  <ComboBox fx:id="cb_from" prefHeight="25.0" prefWidth="113.0" promptText="from..." GridPane.rowIndex="1" />
+                  <Label prefHeight="19.0" prefWidth="42.0" text="From" underline="true">
                       <font>
                           <Font name="Segoe UI Bold" size="15.0" />
                       </font>
                   </Label>
-                  <TextField promptText="amount..." GridPane.columnIndex="6" GridPane.rowIndex="1">
+                  <TextField fx:id="tf_amount" promptText="amount..." GridPane.columnIndex="6" GridPane.rowIndex="1">
                      <font>
                         <Font name="Segoe UI" size="12.0" />
                      </font>

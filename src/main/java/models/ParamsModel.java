@@ -44,6 +44,9 @@ public class ParamsModel {
     public void deleteParams(String params, String value) {
         ParamsService paramsService = new ParamsService();
         paramsService.deleteValueFromParams(params, value);
+        ObservableList<String> strings = map_params.get(params);
+        strings.remove(value);
+        map_params.put(params,strings);
     }
 
     public ParamsModel() {

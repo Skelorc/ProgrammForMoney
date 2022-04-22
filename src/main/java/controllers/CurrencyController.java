@@ -35,7 +35,6 @@ public class CurrencyController extends CurrencyView {
                 getModel().addRelations(cb_first_value.getSelectionModel().getSelectedItem(),
                         cb_second_value.getSelectionModel().getSelectedItem());
                 addColumnToTable();
-                createInfoDialog("Create new relations!", btn);
             } catch (Exception e)
             {
                 createErrorAlertDialog("Please, for create relations, you must choice value from combobox, choice date, and enter value!");
@@ -52,7 +51,6 @@ public class CurrencyController extends CurrencyView {
         {
             int index = getTableView().getSelectionModel().getSelectedIndex();
             getModel().deleteCurrency(index);
-            createInfoDialog("Delete row!", btn_remove_row);
         }
         if(id_button.equals(btn_remove_column.getId()))
         {

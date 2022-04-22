@@ -12,7 +12,8 @@ import views.tables.Table;
 import static models.Model.getModel;
 
 @Getter
-public class CurrencyView extends AbstractView{
+public class CurrencyView extends AbstractView {
+
 
     @FXML
     private TableView<Currency> tableView;
@@ -55,9 +56,9 @@ public class CurrencyView extends AbstractView{
         });
     }
 
-    protected void addColumnToTable()
-    {
-        table.addColumn(tableView);
+    protected void addColumnToTable() {
+        CurrencyTable currencyTable = (CurrencyTable) table;
+        currencyTable.addColumn(tableView);
     }
 
     @Override
@@ -72,14 +73,14 @@ public class CurrencyView extends AbstractView{
     protected void addComboBoxToList() {
     }
 
-    protected void addNewRow()
-    {
-        table.addRow(tableView);
+    protected void addNewRow() {
+        CurrencyTable currencyTable = (CurrencyTable) table;
+        currencyTable.addRow(tableView);
     }
 
-    protected void removeColumn()
-    {
-        table.deleteColumn(tableView);
+    protected void removeColumn() {
+        CurrencyTable currencyTable = (CurrencyTable) table;
+        currencyTable.deleteColumn(tableView);
     }
 
 

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table (name = "projects")
+@Table(name = "projects")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -16,7 +16,7 @@ import java.util.Objects;
 public class Project implements BaseEntity{
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "from_location")
@@ -34,9 +34,9 @@ public class Project implements BaseEntity{
     private String relations;
     private String category;
     private String status;
+    private String name_table;
 
-
-    public Project(String from, String to, String currency, String NCC, String type, LocalDate date, String budget, String amount, String description) {
+    public Project(String from, String to, String currency, String NCC, String type, LocalDate date, String budget, String amount, String description, String name_table) {
         this.from = from;
         this.to = to;
         this.currency = currency;
@@ -46,6 +46,7 @@ public class Project implements BaseEntity{
         this.budget = budget;
         this.amount = amount;
         this.description = description;
+        this.name_table = name_table;
     }
 
     @Override
@@ -59,6 +60,11 @@ public class Project implements BaseEntity{
     @Override
     public int hashCode() {
         return Objects.hash(from, to, currency, NCC, type, date, budget, amount, description);
+    }
+
+    public String getMonth()
+    {
+        return String.valueOf(date.getMonth().getValue());
     }
 
 

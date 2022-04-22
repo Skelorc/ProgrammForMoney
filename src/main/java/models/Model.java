@@ -9,6 +9,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -17,7 +19,7 @@ import static messages.StaticMessage.createErrorAlertDialog;
 
 @Getter
 public class Model {
-
+    private static final Logger logger = LoggerFactory.getLogger(Model.class);
     private static Model instance = new Model();
 
     private Model() {
@@ -38,7 +40,7 @@ public class Model {
     /*Tab Data*/
     public void saveNewDataObject(ComboBox<String> cb_to, ComboBox<String> cb_from, ComboBox<String> cb_currency, ComboBox<String> cb_cc,
                                   ComboBox<String> cb_type, DatePicker datePicker, ComboBox<String> cb_budget, TextField tf_amount,
-                                  TextField description) {
+                                  TextField description, String name_table) {
         try {
             String to = cb_to.getSelectionModel().getSelectedItem();
             String from = cb_from.getSelectionModel().getSelectedItem();
@@ -49,16 +51,16 @@ public class Model {
             String budget = cb_budget.getSelectionModel().getSelectedItem();
             String amount = tf_amount.getText();
             String desc = description.getText();
-            projectModel.createNewProject(to, from, currency, cc, type, value, budget, amount, desc);
+            projectModel.createNewProject(to, from, currency, cc, type, value, budget, amount, desc, name_table);
         } catch (NullPointerException e) {
-            createErrorAlertDialog("Error create new Object! You must select all obligatory params!");
+            createErrorAlertDialog("Ошибка при создании новой записи! Вы должны выбрать все параметры!");
         }
 
     }
 
     public void saveNewDataObject(ComboBox<String> cb_to, ComboBox<String> cb_from,
                                   ComboBox<String> cb_relations, ComboBox<String> cb_category,
-                                  ComboBox<String> cb_status) {
+                                  ComboBox<String> cb_status, String name_table) {
         try
         {
             String to = cb_to.getSelectionModel().getSelectedItem();
@@ -66,17 +68,38 @@ public class Model {
             String relations = cb_relations.getSelectionModel().getSelectedItem();
             String category = cb_category.getSelectionModel().getSelectedItem();
             String status = cb_status.getSelectionModel().getSelectedItem();
-            projectModel.createNewProject(to, from, relations,category,status);
+            projectModel.createNewProject(to, from, relations,category,status,name_table);
         }
         catch (NullPointerException e) {
-            createErrorAlertDialog("Error create new Object! You must select all obligatory params!");
+            createErrorAlertDialog("Ошибка при создании новой записи! Вы должны выбрать все параметры!");
+        }
+    }
+    public void saveNewDataObject(ComboBox<String> cb_to, ComboBox<String> cb_from, ComboBox<String> cb_currency,
+                                  ComboBox<String> cb_ncc, ComboBox<String> cb_type,
+                                  DatePicker dp_date, TextField tf_amount, String name_table) {
+        try
+        {
+            String to = cb_to.getSelectionModel().getSelectedItem();
+            String from = cb_from.getSelectionModel().getSelectedItem();
+            String currency = cb_currency.getSelectionModel().getSelectedItem();
+            String ncc = cb_ncc.getSelectionModel().getSelectedItem();
+            String type = cb_type.getSelectionModel().getSelectedItem();
+            LocalDate date = dp_date.getValue();
+            String amount = tf_amount.getText();
+            projectModel.createNewProject(to, from, currency,ncc,type, date, amount, name_table);
+        }
+        catch (NullPointerException e) {
+            createErrorAlertDialog("Ошибка при создании новой записи! Вы должны выбрать все параметры!");
         }
     }
 
+    public ObservableList<Project> getProjectForTable(String name_table) {
+        return projectModel.getProjectForTable(name_table);
+    }
 
-    public ObservableList<Project> getAllProjects() {
-        FXCollections.observableArrayList(projectModel.getAllData());
-        return projectModel.getAllData();
+    public ObservableList<Project> getFilteredProjects()
+    {
+        return projectModel.getFiltered_list_projects();
     }
 
     public void setProjectForEdit(Project project) {
@@ -88,8 +111,15 @@ public class Model {
        projectModel.updateProject(project);
     }
 
-    public void deleteProject(int index) {
-        projectModel.delete(index);
+    public void deleteProject(int index, String name_table) {
+        try {
+            projectModel.delete(index, name_table);
+        }
+        catch (Exception e)
+        {
+            logger.error("Error when delete row {}",index,e);
+            createErrorAlertDialog("Ошибка! Вы пытаетесь удалить несуществующую строку!");
+        }
     }
 
 
@@ -98,8 +128,8 @@ public class Model {
             String name = getNameFromComboBox(box);
             paramsModel.saveParams(name, textField.getText());
         } else {
-            createErrorAlertDialog("Empty fields - " + textField.getId());
-            throw new NullPointerException("Empty Fields!");
+            createErrorAlertDialog("При добавлении параметра, введите текст в " + textField.getId());
+            throw new NullPointerException("Пустое поле");
         }
     }
 
@@ -121,7 +151,7 @@ public class Model {
         try {
             paramsModel.deleteParams(name_params, value);
         } catch (NullPointerException e) {
-            createErrorAlertDialog("Error! Please, set value in " + comboBox.getPromptText());
+            createErrorAlertDialog("Ошибка! Пожалуйста, выберите значение из " + comboBox.getPromptText());
         }
     }
 
@@ -153,6 +183,11 @@ public class Model {
         return currencyModel.getList_name_columns();
     }
 
+    public ObservableList<String> getAllTypes()
+    {
+        return currencyModel.getList_types();
+    }
+
 
     public void addRelations(String first_value, String second_value) throws Exception {
         if (first_value != null && second_value != null && !first_value.equals(second_value)) {
@@ -168,14 +203,22 @@ public class Model {
     }
 
     public void deleteCurrency(int index) {
-        currencyModel.delete(index);
+        try {
+            currencyModel.delete(index);
+        }
+        catch (Exception e)
+        {
+            logger.error("Error when delete row {}",index,e);
+            createErrorAlertDialog("Ошибка! Вы пытаетесь удалить несуществующую строку!");
+        }
+
     }
 
     public void createTypeCurrency(String type) {
         if (!type.isEmpty()) {
             currencyModel.createTypeCurrency(type.toUpperCase());
         } else {
-            createErrorAlertDialog("Please, for create new type write type currency!");
+            createErrorAlertDialog("Ошибка! При создании нового типа валюты, укажите название этого типа!");
             throw new NullPointerException("Error");
         }
     }
@@ -198,7 +241,7 @@ public class Model {
         if (first_value != null && second_value != null && !first_value.equals(second_value)) {
             currencyModel.deleteRelations(first_value + "/" + second_value);
         } else {
-            createErrorAlertDialog("Please, for delete choice name column!");
+            createErrorAlertDialog("Ошибка! Для удаления столбца, выберите его ззначение из выпадающего списка!");
             throw new NullPointerException("Error");
         }
     }
@@ -208,4 +251,8 @@ public class Model {
     }
 
 
+    public void getDataByFilters(String from, String to, String currency, String ncc, String type, String relations,
+                                 LocalDate date, String budget, String status, String category, String amount, String description, String name_table) {
+        projectModel.getDataByFilters(from,to,currency,ncc,type,relations,date,budget, status, category,amount,description,name_table);
+    }
 }

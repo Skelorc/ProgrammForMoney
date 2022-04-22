@@ -40,9 +40,6 @@ public class CurrencyModel {
             service.saveOrUpdate(typeCurrency);
         }
     }
-
-
-
     public void removeTypeCurrency(String selectedItem) {
         TypeCurrencyService typeCurrencyService = new TypeCurrencyService();
         TypeCurrency byType = typeCurrencyService.findByType(selectedItem);
@@ -57,14 +54,14 @@ public class CurrencyModel {
             relations = new Relations();
             relations.setRelation(first_value + "/" + second_value);
             relations.setCurrency(currency);
-            relations.setValue("");
+            relations.setValue_relation("");
             boolean added = currency.getRelations_list().add(relations);
             if (added) {
                 list_name_columns.add(relations.getRelation());
                 currencyService.saveOrUpdate(currency);
                 list_currency.set(i, currency);
             } else {
-                throw new Exception();
+                throw new Exception("Error! Already exists!");
             }
         }
     }
@@ -125,7 +122,7 @@ public class CurrencyModel {
             if(from_list.getId()== currency.getId())
             {
                 from_list.getRelations_list().remove(relations);
-                relations.setValue(relation);
+                relations.setValue_relation(relation);
                 from_list.getRelations_list().add(relations);
                 from_list.setDate(currency.getDate());
                 from_list.setRelations_list(currency.getRelations_list());
