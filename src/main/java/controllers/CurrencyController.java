@@ -3,10 +3,10 @@ package controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import utils.Export;
 import views.CurrencyView;
 
-import static messages.StaticMessage.createErrorAlertDialog;
-import static messages.StaticMessage.createInfoDialog;
+import static messages.StaticMessage.*;
 import static models.Model.getModel;
 
 public class CurrencyController extends CurrencyView {
@@ -58,6 +58,22 @@ public class CurrencyController extends CurrencyView {
                     cb_second_value.getSelectionModel().getSelectedItem());
             removeColumn();
         }
+    }
+
+    @FXML
+    private void exportFile(ActionEvent actionEvent)
+    {
+        Export export = new Export();
+        export.createDocumentAndAddHeaders(getTableView(),"Currency","Currency");
+        export.addCurrencyData(getModel().getCurrencyModel().getList_currency(),"Currency");
+        showProgressBar();
+
+    }
+
+    @FXML
+    private void importFile(ActionEvent actionEvent)
+    {
+
     }
 
     @FXML

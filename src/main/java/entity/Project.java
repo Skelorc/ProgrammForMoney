@@ -66,6 +66,9 @@ public class Project implements BaseEntity{
     {
         return String.valueOf(date.getMonth().getValue());
     }
-
+    public String getYear()
+    {
+        return String.valueOf(date.getYear());
+    }
 
 }

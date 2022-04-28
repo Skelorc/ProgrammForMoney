@@ -3,9 +3,10 @@ package controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import utils.Export;
 import views.DataView;
 
-import static messages.StaticMessage.createInfoDialog;
+import static messages.StaticMessage.showProgressBar;
 import static models.Model.getModel;
 
 
@@ -83,7 +84,6 @@ public class DataController extends DataView {
             getModel().saveNewDataObject(
                     cb_from, cb_to, cb_currency, cb_ncc,cb_type,dp_date,cb_budget,tf_amount,tf_description,tableView_data.getId()
             );
-            clearFields();
         }
         else if(id.equals(btn_delete.getId()))
         {
@@ -93,22 +93,21 @@ public class DataController extends DataView {
         else if(id.equals(btn_find.getId()))
         {
             getModel().getDataByFilters(
-                    cb_from.getSelectionModel().getSelectedItem(),
-                    cb_to.getSelectionModel().getSelectedItem(),
-                    cb_currency.getSelectionModel().getSelectedItem(),
-                    cb_ncc.getSelectionModel().getSelectedItem(),
-                    cb_type.getSelectionModel().getSelectedItem(),
-                    null,
-                    dp_date.getValue(),
-                    cb_budget.getSelectionModel().getSelectedItem(),
+                    ccb_from,
+                    ccb_to,
+                    ccb_currency,
+                    ccb_ncc,
+                    ccb_type,
                     null,
                     null,
-                    tf_amount.getText(),
-                    tf_description.getText(),
+                    ccb_budget,
+                    null,
+                    null,
+                    tf_filter_amount,
+                    tf_filter_description,
                     getTableView_data().getId()
             );
             showFilteredProjectsList();
-            clearFields();
         }
         else if(id.equals(btn_clear_fields.getId()))
         {
@@ -119,6 +118,22 @@ public class DataController extends DataView {
          {
              showAll();
          }
+    }
+
+    @FXML
+    private void exportFile(ActionEvent actionEvent)
+    {
+        Export export = new Export();
+        export.createDocumentAndAddHeaders(getTableView_data(),"Data","Data");
+        export.addProjectData("Data",getModel().getProjectModel().getList_projects_data(),"Data");
+        showProgressBar();
+
+    }
+
+    @FXML
+    private void importFile(ActionEvent actionEvent)
+    {
+
     }
 
     @FXML

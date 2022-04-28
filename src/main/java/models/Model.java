@@ -3,16 +3,19 @@ package models;
 import entity.Currency;
 import entity.Project;
 import entity.Relations;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import lombok.Getter;
+import org.controlsfx.control.CheckComboBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static messages.StaticMessage.createErrorAlertDialog;
@@ -94,18 +97,13 @@ public class Model {
     }
 
     public ObservableList<Project> getProjectForTable(String name_table) {
-        return projectModel.getProjectForTable(name_table);
+        return projectModel.getListForTable(name_table);
     }
 
     public ObservableList<Project> getFilteredProjects()
     {
         return projectModel.getFiltered_list_projects();
     }
-
-    public void setProjectForEdit(Project project) {
-        projectModel.setProject(project);
-    }
-
 
     public void updateProject(Project project) {
        projectModel.updateProject(project);
@@ -139,10 +137,6 @@ public class Model {
 
     public Map<String, ObservableList<String>> getAllParams() {
         return paramsModel.getMap_params();
-    }
-
-    public ObservableList<String> getParamsFromCombobox() {
-        return paramsModel.getList_for_box();
     }
 
     public void removeParams(ComboBox<String> comboBox) {
@@ -251,8 +245,66 @@ public class Model {
     }
 
 
-    public void getDataByFilters(String from, String to, String currency, String ncc, String type, String relations,
-                                 LocalDate date, String budget, String status, String category, String amount, String description, String name_table) {
-        projectModel.getDataByFilters(from,to,currency,ncc,type,relations,date,budget, status, category,amount,description,name_table);
+    public void getDataByFilters(CheckComboBox<String> ccb_from, CheckComboBox<String> ccb_to,
+                                 CheckComboBox<String> ccb_currency, CheckComboBox<String> ccb_ncc,
+                                 CheckComboBox<String> ccb_type, CheckComboBox<String> ccb_relations,
+                                 DatePicker date, CheckComboBox<String> ccb_budget, CheckComboBox<String> ccb_status,
+                                 CheckComboBox<String> ccb_category, TextField amount, TextField description, String name_table) {
+        HashMap<String, List<String>> param_map = new HashMap<>();
+        if(ccb_from != null)
+        {
+            param_map.put(ccb_from.getTitle(),ccb_from.getCheckModel().getCheckedItems());
+        }
+        if(ccb_to != null)
+        {
+            param_map.put(ccb_to.getTitle(),ccb_to.getCheckModel().getCheckedItems());
+        }
+        if(ccb_currency != null)
+        {
+            param_map.put(ccb_currency.getTitle(),ccb_currency.getCheckModel().getCheckedItems());
+        }
+        if(ccb_ncc != null)
+        {
+            param_map.put(ccb_ncc.getTitle(),ccb_ncc.getCheckModel().getCheckedItems());
+        }
+        if(ccb_type != null)
+        {
+            param_map.put(ccb_type.getTitle(),ccb_type.getCheckModel().getCheckedItems());
+        }
+        if(ccb_relations != null)
+        {
+            param_map.put(ccb_relations.getTitle(),ccb_relations.getCheckModel().getCheckedItems());
+        }
+        if(date != null && date.getValue() != null)
+        {
+            List<String> list = new ArrayList<>();
+            list.add(date.getValue().toString());
+            param_map.put("date", list);
+        }
+        if(ccb_budget != null)
+        {
+            param_map.put(ccb_budget.getTitle(),ccb_budget.getCheckModel().getCheckedItems());
+        }
+        if(ccb_status != null)
+        {
+            param_map.put(ccb_status.getTitle(),ccb_status.getCheckModel().getCheckedItems());
+        }
+        if(ccb_category != null)
+        {
+            param_map.put(ccb_category.getTitle(),ccb_category.getCheckModel().getCheckedItems());
+        }
+        if(amount != null && !amount.getText().isEmpty())
+        {
+            List<String> list = new ArrayList<>();
+            list.add(amount.getText());
+            param_map.put("amount", list);
+        }
+        if(description != null && !description.getText().isEmpty())
+        {
+            List<String> list = new ArrayList<>();
+            list.add(description.getText());
+            param_map.put("description", list);
+        }
+        projectModel.getDataByFilters(param_map, name_table);
     }
 }

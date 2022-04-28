@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 public class ParamsModel {
 
     private Params params;
-    private ObservableList<String> all_params;
-    private ObservableList<String> list_for_box;
     private Map<String, ObservableList<String>> map_params;
 
     public void saveParams(String name, String value ) {

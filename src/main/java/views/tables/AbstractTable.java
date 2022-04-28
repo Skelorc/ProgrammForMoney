@@ -240,6 +240,18 @@ abstract class AbstractTable implements Table {
                 break;
             case "Year":
                 column.setCellValueFactory(new PropertyValueFactory<>("year"));
+                column.setCellFactory(TextFieldTableCell.forTableColumn());
+                column.setOnEditCommit(param -> {
+                    String newYear = param.getNewValue();
+                    Project project = (Project) param.getTableView().getSelectionModel().getSelectedItem();
+                    int month = project.getDate().getMonth().getValue();
+                    int dayOfMonth = project.getDate().getDayOfMonth();
+                    String date_str = newYear+"-"+month+"-"+dayOfMonth;
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-M-dd", Locale.US);
+                    LocalDate date = LocalDate.parse(date_str,formatter);
+                    project.setDate(date);
+                    getModel().updateProject(project);
+                });
                 break;
             default:
                 column.setCellValueFactory(param -> {

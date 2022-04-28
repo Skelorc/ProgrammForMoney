@@ -1,12 +1,13 @@
 package controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import utils.Export;
 import views.ProjectView;
 
-import javafx.event.ActionEvent;
-
 import static messages.StaticMessage.createInfoDialog;
+import static messages.StaticMessage.showProgressBar;
 import static models.Model.getModel;
 
 public class ProjectController extends ProjectView {
@@ -30,18 +31,18 @@ public class ProjectController extends ProjectView {
         if(id_button.equals(btn_find.getId()))
         {
             getModel().getDataByFilters(
-                    cb_from.getSelectionModel().getSelectedItem(),
-                    cb_to.getSelectionModel().getSelectedItem(),
+                    ccb_from,
+                    ccb_to,
                     null,
                     null,
                     null,
-                    cb_relations.getSelectionModel().getSelectedItem(),
+                    ccb_relations,
                     null,
                     null,
-                    cb_status.getSelectionModel().getSelectedItem(),
-                    cb_category.getSelectionModel().getSelectedItem(),
-                    "",
-                    "",
+                    ccb_status,
+                    ccb_category,
+                    null,
+                    null,
                     getTableView_project().getId()
             );
             showFilteredProjectsList();
@@ -55,5 +56,21 @@ public class ProjectController extends ProjectView {
             int index = getTableView_project().getSelectionModel().getSelectedIndex();
             getModel().deleteProject(index, getTableView_project().getId());
         }
+    }
+
+    @FXML
+    private void exportFile(ActionEvent actionEvent)
+    {
+        Export export = new Export();
+        export.createDocumentAndAddHeaders(getTableView_project(),"Project","Project");
+        export.addProjectData("Project",getModel().getProjectModel().getList_projects_project(),"Project");
+        showProgressBar();
+        createInfoDialog("Данные будут сохранены в папке \"Export\" под названием \"Project Tab\"", null);
+    }
+
+    @FXML
+    private void importFile(ActionEvent actionEvent)
+    {
+
     }
 }

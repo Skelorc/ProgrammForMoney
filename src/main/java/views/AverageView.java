@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import lombok.Getter;
+import org.controlsfx.control.CheckComboBox;
 import views.tables.AverageTable;
 
 import java.util.Map;
@@ -15,13 +16,16 @@ import static models.Model.getModel;
 public class AverageView extends AbstractView{
 
     @FXML
-    protected Button btn_add,btn_show_all,btn_clear_fields, btn_find, btn_remove;
+    protected Button btn_add,btn_show_all,btn_clear_fields, btn_find, btn_remove,
+    btn_export, btn_import;
     @FXML
     protected ComboBox<String> cb_from, cb_to, cb_currency, cb_ncc, cb_type;
     @FXML
+    protected CheckComboBox<String> ccb_from, ccb_to, ccb_currency, ccb_ncc, ccb_type;
+    @FXML
     protected DatePicker dp_date;
     @FXML
-    protected TextField tf_amount;
+    protected TextField tf_amount,tf_filter_amount;
     @FXML
     private TableView<Project> tableView_average;
 
@@ -30,11 +34,16 @@ public class AverageView extends AbstractView{
     protected void addValuesToComboBox() {
         Map<String, ObservableList<String>> allParams = getModel().getAllParams();
         ObservableList<String> allTypes = getModel().getAllTypes();
-        cb_to.setItems(allParams.get("to"));
         cb_from.setItems(allParams.get("from"));
+        ccb_from.getItems().addAll(allParams.get("from"));
+        cb_to.setItems(allParams.get("to"));
+        ccb_to.getItems().addAll(allParams.get("to"));
         cb_currency.setItems(allTypes);
+        ccb_currency.getItems().addAll(allTypes);
         cb_ncc.setItems(allParams.get("ncc"));
+        ccb_ncc.getItems().addAll(allParams.get("ncc"));
         cb_type.setItems(allParams.get("type"));
+        ccb_type.getItems().addAll(allParams.get("type"));
     }
 
     @Override
@@ -61,11 +70,17 @@ public class AverageView extends AbstractView{
     @Override
     public void clearFields() {
         cb_to.getSelectionModel().clearSelection();
+        ccb_to.getCheckModel().clearChecks();
         cb_from.getSelectionModel().clearSelection();
+        ccb_from.getCheckModel().clearChecks();
         cb_currency.getSelectionModel().clearSelection();
+        ccb_currency.getCheckModel().clearChecks();
         cb_ncc.getSelectionModel().clearSelection();
+        ccb_ncc.getCheckModel().clearChecks();
         cb_type.getSelectionModel().clearSelection();
+        ccb_type.getCheckModel().clearChecks();
         dp_date.getEditor().clear();
         clearTextField(tf_amount);
+        clearTextField(tf_filter_amount);
     }
 }

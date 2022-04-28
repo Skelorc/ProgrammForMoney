@@ -12,24 +12,23 @@
 
 <AnchorPane prefHeight="620.0" prefWidth="1170.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CurrencyController">
     <children>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="620.0" prefWidth="1170.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="742.0" prefWidth="1170.0">
         <children>
             <Label layoutX="582.0" layoutY="3.0" text="Currency" underline="true">
                 <font>
                     <Font name="Segoe UI Bold" size="18.0" />
                 </font>
             </Label>
-            <Button fx:id="btn_add_type" layoutX="152.0" layoutY="495.0" mnemonicParsing="false" onAction="#currencyControl" text="Add" textFill="#28942f">
+            <Button fx:id="btn_add_type" layoutX="156.0" layoutY="648.0" mnemonicParsing="false" onAction="#currencyControl" text="Add" textFill="#28942f">
                 <font>
                     <Font name="Segoe UI Bold" size="13.0" />
                 </font>
             </Button>
-            <TextField fx:id="tf_type_currency" layoutX="118.0" layoutY="442.0" prefHeight="28.0" prefWidth="112.0" promptText="add new...">
+            <TextField fx:id="tf_type_currency" layoutX="122.0" layoutY="595.0" prefHeight="28.0" prefWidth="112.0" promptText="add new...">
                <font>
                   <Font name="Segoe UI Bold" size="14.0" />
                </font></TextField>
-            <ComboBox fx:id="cb_second_value" layoutX="849.0" layoutY="441.0" prefHeight="28.0" prefWidth="135.0" promptText="second..." />
-            <TableView fx:id="tableView" layoutX="1.0" layoutY="37.0" prefHeight="261.0" prefWidth="1168.0" tableMenuButtonVisible="true">
+            <TableView fx:id="tableView" layoutX="1.0" layoutY="37.0" prefHeight="442.0" prefWidth="1168.0" tableMenuButtonVisible="true">
                 <columnResizePolicy>
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                 </columnResizePolicy>
@@ -39,22 +38,17 @@
                     <TableColumn prefWidth="75.0" text="Date" />
                 </columns>
             </TableView>
-            <TextField fx:id="tf_relations" editable="false" layoutX="709.0" layoutY="442.0" prefHeight="25.0" prefWidth="112.0" promptText="add new..." text="/">
-               <font>
-                  <Font name="Segoe UI Bold" size="14.0" />
-               </font></TextField>
-            <Label layoutX="187.0" layoutY="403.0" text="Work with Type" underline="true">
+            <Label layoutX="191.0" layoutY="556.0" text="Work with Type" underline="true">
                 <font>
                     <Font name="Segoe UI Bold" size="15.0" />
                 </font>
             </Label>
-            <Label layoutX="701.0" layoutY="403.0" prefHeight="19.0" prefWidth="153.0" text="Work with  Columns" underline="true">
+            <Label layoutX="544.0" layoutY="556.0" prefHeight="19.0" prefWidth="153.0" text="Work with  Columns" underline="true">
                 <font>
                     <Font name="Segoe UI Bold" size="15.0" />
                 </font>
             </Label>
-            <ComboBox fx:id="cb_first_value" layoutX="546.0" layoutY="442.0" prefHeight="28.0" prefWidth="135.0" promptText="first..." />
-            <HBox alignment="CENTER" layoutX="584.0" layoutY="495.0" prefHeight="28.0" prefWidth="407.0" spacing="25.0">
+            <HBox alignment="CENTER" layoutX="410.0" layoutY="648.0" prefHeight="28.0" prefWidth="407.0" spacing="25.0">
                <children>
                   <Button fx:id="btn_add_relations" mnemonicParsing="false" onAction="#currencyControl" text="Add" textFill="#28942f">
                      <font>
@@ -73,13 +67,13 @@
                   </Button>
                </children>
             </HBox>
-            <ComboBox fx:id="cb_type" layoutX="273.0" layoutY="441.0" prefHeight="28.0" prefWidth="76.0" promptText="type..." />
-            <Button fx:id="btn_remove_type" layoutX="277.0" layoutY="495.0" mnemonicParsing="false" onAction="#currencyControl" text="Remove" textFill="#971717">
+            <ComboBox fx:id="cb_type" layoutX="277.0" layoutY="594.0" prefHeight="28.0" prefWidth="76.0" promptText="type..." />
+            <Button fx:id="btn_remove_type" layoutX="281.0" layoutY="648.0" mnemonicParsing="false" onAction="#currencyControl" text="Remove" textFill="#971717">
                <font>
                   <Font name="Segoe UI Bold" size="13.0" />
                </font>
             </Button>
-            <HBox alignment="CENTER" layoutX="441.0" layoutY="319.0" prefHeight="27.0" prefWidth="346.0" spacing="75.0">
+            <HBox alignment="CENTER" layoutX="447.0" layoutY="516.0" prefHeight="27.0" prefWidth="346.0" spacing="75.0">
                <children>
                   <Button fx:id="btn_add_row" mnemonicParsing="false" onAction="#currencyControl" text="Add new row" textFill="#28942f">
                       <font>
@@ -90,6 +84,41 @@
                       <font>
                           <Font name="Segoe UI Bold" size="13.0" />
                       </font>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="410.0" layoutY="596.0" prefHeight="28.0" prefWidth="370.0" spacing="25.0">
+               <children>
+                  <ComboBox fx:id="cb_second_value" prefHeight="28.0" prefWidth="135.0" promptText="second..." />
+                  <TextField fx:id="tf_relations" editable="false" prefHeight="25.0" prefWidth="112.0" promptText="add new..." text="/">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </TextField>
+                  <ComboBox fx:id="cb_first_value" prefHeight="28.0" prefWidth="135.0" promptText="first..." />
+               </children>
+            </HBox>
+            <Label layoutX="919.0" layoutY="556.0" text="Export/Import" underline="true">
+               <font>
+                  <Font name="Segoe UI Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="557.0" layoutY="486.0" text="Add new currency" underline="true">
+               <font>
+                  <Font name="Segoe UI Bold" size="15.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" layoutX="870.0" layoutY="597.0" prefHeight="19.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Button fx:id="btn_import" mnemonicParsing="false" onAction="#importFile" text="Import" textFill="#3131c9">
+                     <font>
+                        <Font name="Segoe UI Bold" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btn_export" mnemonicParsing="false" onAction="#exportFile" text="Export" textFill="#3131c9">
+                     <font>
+                        <Font name="Segoe UI Bold" size="13.0" />
+                     </font>
                   </Button>
                </children>
             </HBox>

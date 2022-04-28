@@ -29,7 +29,7 @@ public class StaticMessage {
         alert.setContentText(message);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         if(stage != null)
-        closeProgressBar("Error!");
+        closeProgressBar();
         alert.showAndWait();
     }
 
@@ -101,6 +101,15 @@ public class StaticMessage {
                 if(stage!=null)
                 stage.close();
                 createInfoDialog(message, null);
+            }
+        });
+    }
+    public static void closeProgressBar() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if(stage!=null)
+                    stage.close();
             }
         });
     }

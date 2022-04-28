@@ -16,26 +16,27 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.CheckComboBox?>
 
-<AnchorPane prefHeight="620.0" prefWidth="1170.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DataController">
+<AnchorPane prefHeight="742.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DataController">
     <children>
-        <TabPane layoutY="50.0" prefHeight="570.0" prefWidth="1170.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane layoutY="50.0" prefHeight="693.0" prefWidth="1170.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab text="Table Data">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="658.0" prefWidth="1168.0">
                             <children>
-                                <TableView fx:id="tableView_data" layoutY="31.0" prefHeight="261.0" prefWidth="1168.0" tableMenuButtonVisible="true">
+                                <TableView fx:id="tableView_data" layoutY="31.0" prefHeight="328.0" prefWidth="1168.0" tableMenuButtonVisible="true">
                                     <columnResizePolicy>
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                     </columnResizePolicy>
                                 </TableView>
-                                <Label layoutX="553.0" layoutY="345.0" text="Add new Data" underline="true">
+                                <Label layoutX="554.0" layoutY="359.0" text="Add new Data" underline="true">
                                     <font>
-                                        <Font name="Segoe UI Bold" size="18.0" />
+                                        <Font name="Segoe UI Bold" size="15.0" />
                                     </font>
                                 </Label>
-                                <GridPane layoutX="-1.0" layoutY="390.0" prefHeight="56.0" prefWidth="1170.0">
+                                <GridPane layoutX="-1.0" layoutY="382.0" prefHeight="56.0" prefWidth="1170.0">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -99,7 +100,7 @@
                                         </Label>
                                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="96.0" GridPane.columnIndex="8" GridPane.rowIndex="1">
                                             <children>
-                                    <TextField fx:id="tf_description" alignment="CENTER" minHeight="25.0" minWidth="85.0" prefHeight="25.0" prefWidth="85.0" promptText="Description...">
+                                    <TextField fx:id="tf_description" alignment="CENTER" minHeight="25.0" minWidth="85.0" prefHeight="25.0" prefWidth="107.0" promptText="Description...">
                                        <font>
                                           <Font name="Segoe UI Bold" size="12.0" />
                                        </font>
@@ -114,7 +115,7 @@
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="111.0" GridPane.columnIndex="7" GridPane.rowIndex="1">
                                             <children>
-                                                <TextField fx:id="tf_amount" alignment="CENTER" minHeight="25.0" minWidth="85.0" prefHeight="25.0" prefWidth="85.0" promptText="Amount...">
+                                                <TextField fx:id="tf_amount" alignment="CENTER" minHeight="25.0" minWidth="85.0" prefHeight="25.0" prefWidth="115.0" promptText="Amount...">
                                        <font>
                                           <Font name="Segoe UI Bold" size="12.0" />
                                        </font></TextField>
@@ -128,7 +129,7 @@
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="111.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
                                             <children>
-                                                <ComboBox fx:id="cb_budget" prefHeight="25.0" prefWidth="87.0" promptText="actuals..." />
+                                                <ComboBox fx:id="cb_budget" prefHeight="25.0" prefWidth="115.0" promptText="actuals..." />
                                             </children>
                                             <GridPane.margin>
                                                 <Insets />
@@ -139,7 +140,7 @@
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="111.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
                                             <children>
-                                                <DatePicker fx:id="dp_date" prefHeight="25.0" prefWidth="87.0" />
+                                                <DatePicker fx:id="dp_date" prefHeight="25.0" prefWidth="113.0" />
                                             </children>
                                             <GridPane.margin>
                                                 <Insets />
@@ -150,7 +151,7 @@
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="111.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
                                             <children>
-                                                <ComboBox fx:id="cb_type" prefHeight="25.0" prefWidth="85.0" promptText="type..." />
+                                                <ComboBox fx:id="cb_type" prefHeight="25.0" prefWidth="112.0" promptText="type..." />
                                             </children>
                                             <GridPane.margin>
                                                 <Insets />
@@ -161,7 +162,7 @@
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="111.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                             <children>
-                                                <ComboBox fx:id="cb_ncc" prefHeight="25.0" prefWidth="87.0" promptText="cc..." />
+                                                <ComboBox fx:id="cb_ncc" prefHeight="25.0" prefWidth="119.0" promptText="cc..." />
                                             </children>
                                             <GridPane.margin>
                                                 <Insets />
@@ -172,7 +173,7 @@
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="111.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                             <children>
-                                                <ComboBox fx:id="cb_currency" prefHeight="25.0" prefWidth="87.0" promptText="currency..." />
+                                                <ComboBox fx:id="cb_currency" prefHeight="25.0" prefWidth="112.0" promptText="currency..." />
                                             </children>
                                             <GridPane.margin>
                                                 <Insets />
@@ -183,7 +184,7 @@
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                             <children>
-                                                <ComboBox fx:id="cb_to" prefHeight="25.0" prefWidth="87.0" promptText="to..." />
+                                                <ComboBox fx:id="cb_to" prefHeight="25.0" prefWidth="113.0" promptText="to..." />
                                             </children>
                                             <GridPane.margin>
                                                 <Insets />
@@ -194,7 +195,7 @@
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="111.0" GridPane.rowIndex="1">
                                             <children>
-                                                <ComboBox fx:id="cb_from" prefHeight="25.0" prefWidth="87.0" promptText="from..." />
+                                                <ComboBox fx:id="cb_from" prefHeight="25.0" prefWidth="116.0" promptText="from..." />
                                             </children>
                                             <GridPane.margin>
                                                 <Insets />
@@ -205,24 +206,9 @@
                                         </HBox>
                                     </children>
                                 </GridPane>
-                                <HBox alignment="CENTER" layoutX="304.0" layoutY="477.0" prefHeight="27.0" prefWidth="619.0" spacing="45.0">
+                                <HBox alignment="CENTER" layoutX="527.0" layoutY="457.0" prefHeight="27.0" prefWidth="174.0" spacing="10.0">
                                     <children>
                               <Button fx:id="btn_add" mnemonicParsing="false" onAction="#controlTable" text="Add" textFill="#28942f">
-                                 <font>
-                                    <Font name="Segoe UI Bold" size="13.0" />
-                                 </font>
-                              </Button>
-                                        <Button fx:id="btn_show_all" mnemonicParsing="false" onAction="#controlTable" text="Show All Data" textFill="#2d8a0e">
-                                            <font>
-                                                <Font name="Segoe UI Bold" size="13.0" />
-                                            </font>
-                                        </Button>
-                                        <Button fx:id="btn_find" mnemonicParsing="false" onAction="#controlTable" text="Find" textFill="#3131c9">
-                                            <font>
-                                                <Font name="Segoe UI Bold" size="13.0" />
-                                            </font>
-                                        </Button>
-                              <Button fx:id="btn_clear_fields" mnemonicParsing="false" onAction="#controlTable" text="Clear Fields" textFill="#3131c9">
                                  <font>
                                     <Font name="Segoe UI Bold" size="13.0" />
                                  </font>
@@ -239,6 +225,75 @@
                                         <Font name="Segoe UI Bold" size="20.0" />
                                     </font>
                                 </Label>
+                        <HBox alignment="CENTER" layoutX="192.0" layoutY="577.0" prefHeight="24.0" prefWidth="284.0" spacing="10.0">
+                           <children>
+                                        <Button fx:id="btn_show_all" mnemonicParsing="false" onAction="#controlTable" text="Show All Data" textFill="#2d8a0e">
+                                            <font>
+                                                <Font name="Segoe UI Bold" size="13.0" />
+                                            </font>
+                                        </Button>
+                                        <Button fx:id="btn_find" mnemonicParsing="false" onAction="#controlTable" text="Find" textFill="#3131c9">
+                                            <font>
+                                                <Font name="Segoe UI Bold" size="13.0" />
+                                            </font>
+                                        </Button>
+                              <Button fx:id="btn_clear_fields" mnemonicParsing="false" onAction="#controlTable" text="Clear Fields" textFill="#3131c9">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="13.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <Label layoutX="315.0" layoutY="475.0" text="Filter" underline="true">
+                           <font>
+                              <Font name="Segoe UI Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <GridPane alignment="CENTER" layoutX="79.0" layoutY="505.0" prefHeight="61.0" prefWidth="508.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <CheckComboBox fx:id="ccb_from" showCheckedCount="true" title="from" />
+                              <CheckComboBox fx:id="ccb_to" showCheckedCount="true" title="to" GridPane.rowIndex="1" />
+                              <CheckComboBox fx:id="ccb_currency" showCheckedCount="true" title="currency" GridPane.columnIndex="1" />
+                              <CheckComboBox fx:id="ccb_ncc" showCheckedCount="true" title="ncc" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <CheckComboBox fx:id="ccb_type" showCheckedCount="true" title="type" GridPane.columnIndex="2" />
+                              <CheckComboBox fx:id="ccb_budget" showCheckedCount="true" title="budget" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <TextField fx:id="tf_filter_amount" prefHeight="24.0" prefWidth="181.0" promptText="amount" GridPane.columnIndex="3">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="12.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="tf_filter_description" promptText="description" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="12.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </GridPane>
+                        <Button fx:id="btn_import" layoutX="867.0" layoutY="538.0" mnemonicParsing="false" onAction="#importFile" text="Import" textFill="#3131c9">
+                           <font>
+                              <Font name="Segoe UI Bold" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btn_export" layoutX="778.0" layoutY="538.0" mnemonicParsing="false" onAction="#exportFile" text="Export" textFill="#3131c9">
+                           <font>
+                              <Font name="Segoe UI Bold" size="13.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="802.0" layoutY="508.0" text="Export/Import" underline="true">
+                           <font>
+                              <Font name="Segoe UI Bold" size="15.0" />
+                           </font>
+                        </Label>
                             </children>
                         </AnchorPane>
                     </content>
@@ -337,47 +392,47 @@
                                 </Button>
                                 <TextField fx:id="tf_budget" layoutX="473.0" layoutY="266.0" prefHeight="25.0" prefWidth="112.0" promptText="add new..." />
                                 <TextField fx:id="tf_to" layoutX="64.0" layoutY="258.0" prefHeight="25.0" prefWidth="112.0" promptText="add new..." />
-                                <TextField fx:id="tf_status" layoutX="791.0" layoutY="431.0" prefHeight="25.0" prefWidth="112.0" promptText="add new..." />
-                                <Button fx:id="btn_add_status" layoutX="807.0" layoutY="469.0" mnemonicParsing="false" onAction="#addNewParams" text="Add" textFill="#28942f">
+                                <TextField fx:id="tf_status" layoutX="783.0" layoutY="499.0" prefHeight="25.0" prefWidth="112.0" promptText="add new..." />
+                                <Button fx:id="btn_add_status" layoutX="799.0" layoutY="537.0" mnemonicParsing="false" onAction="#addNewParams" text="Add" textFill="#28942f">
                                     <font>
                                         <Font name="Segoe UI Bold" size="13.0" />
                                     </font>
                                 </Button>
-                                <Button fx:id="btn_remove_status" layoutX="931.0" layoutY="469.0" mnemonicParsing="false" onAction="#deleteParams" text="Remove" textFill="#971717">
+                                <Button fx:id="btn_remove_status" layoutX="923.0" layoutY="537.0" mnemonicParsing="false" onAction="#deleteParams" text="Remove" textFill="#971717">
                                     <font>
                                         <Font name="Segoe UI Bold" size="13.0" />
                                     </font>
                                 </Button>
-                                <ComboBox fx:id="cb_edit_status" layoutX="927.0" layoutY="431.0" prefWidth="112.0" promptText="status..." />
-                                <Label layoutX="879.0" layoutY="400.0" text="Status">
+                                <ComboBox fx:id="cb_edit_status" layoutX="919.0" layoutY="499.0" prefWidth="112.0" promptText="status..." />
+                                <Label layoutX="871.0" layoutY="468.0" text="Status">
                                     <font>
                                         <Font name="Segoe UI Bold" size="13.0" />
                                     </font>
                                 </Label>
-                                <Label layoutX="330.0" layoutY="400.0" text="Category">
+                                <Label layoutX="322.0" layoutY="468.0" text="Category">
                                     <font>
                                         <Font name="Segoe UI Bold" size="13.0" />
                                     </font>
                                 </Label>
-                                <ComboBox fx:id="cb_edit_category" layoutX="368.0" layoutY="431.0" prefHeight="25.0" prefWidth="112.0" promptText="category..." />
-                                <TextField fx:id="tf_category" layoutX="221.0" layoutY="431.0" prefHeight="25.0" prefWidth="112.0" promptText="add new..." />
-                                <Button fx:id="btn_add_category" layoutX="255.0" layoutY="469.0" mnemonicParsing="false" onAction="#addNewParams" text="Add" textFill="#28942f">
+                                <ComboBox fx:id="cb_edit_category" layoutX="360.0" layoutY="499.0" prefHeight="25.0" prefWidth="112.0" promptText="category..." />
+                                <TextField fx:id="tf_category" layoutX="213.0" layoutY="499.0" prefHeight="25.0" prefWidth="112.0" promptText="add new..." />
+                                <Button fx:id="btn_add_category" layoutX="247.0" layoutY="537.0" mnemonicParsing="false" onAction="#addNewParams" text="Add" textFill="#28942f">
                                     <font>
                                         <Font name="Segoe UI Bold" size="13.0" />
                                     </font>
                                 </Button>
-                                <Button fx:id="btn_remove_category" layoutX="393.0" layoutY="470.0" mnemonicParsing="false" onAction="#deleteParams" text="Remove" textFill="#971717">
+                                <Button fx:id="btn_remove_category" layoutX="385.0" layoutY="538.0" mnemonicParsing="false" onAction="#deleteParams" text="Remove" textFill="#971717">
                                     <font>
                                         <Font name="Segoe UI Bold" size="13.0" />
                                     </font>
                                 </Button>
-                                <Separator layoutY="351.0" prefHeight="19.0" prefWidth="1170.0" />
+                                <Separator layoutY="402.0" prefHeight="19.0" prefWidth="1170.0" />
                                 <Label layoutX="554.0" layoutY="43.0" text="Obligatory params" underline="true">
                                     <font>
                                         <Font name="Segoe UI Bold" size="15.0" />
                                     </font>
                                 </Label>
-                                <Label layoutX="561.0" layoutY="361.0" text="Optional params" underline="true">
+                                <Label layoutX="561.0" layoutY="430.0" text="Optional params" underline="true">
                                     <font>
                                         <Font name="Segoe UI Bold" size="15.0" />
                                     </font>

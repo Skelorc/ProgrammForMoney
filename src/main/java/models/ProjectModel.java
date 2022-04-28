@@ -10,6 +10,7 @@ import service.ProjectService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -87,48 +88,47 @@ public class ProjectModel {
         list.add(project);
     }
 
-    public void getDataByFilters(String from, String to, String currency, String ncc, String type,
-                                 String relations, LocalDate date, String budget, String status,
-                                 String category, String amount, String description, String name_table) {
+    public void getDataByFilters(HashMap<String, List<String>> params, String name_table) {
         List<Project> list = new ArrayList<>();
-        ObservableList<Project> observableList = getProjectForTable(name_table);
+        ObservableList<Project> observableList = getListForTable(name_table);
         for (int i = 0; i < observableList.size(); i++) {
             Project project = observableList.get(i);
-            if (from != null)
-                if (project.getFrom()== null || !project.getFrom().equals(from))
+            System.out.println(project.toString());
+            if (params.get("from") != null && !params.get("from").isEmpty())
+                if (project.getFrom()== null || !params.get("from").contains(project.getFrom()))
                     continue;
-            if (to!= null)
-                if (project.getTo()== null || !project.getTo().equals(to))
+            if (params.get("to") != null && !params.get("to").isEmpty())
+                if (project.getTo()== null || !params.get("to").contains(project.getTo()))
                     continue;
-            if (currency!= null)
-                if (project.getCurrency()== null || !project.getCurrency().equals(currency))
+            if (params.get("currency") != null && !params.get("currency").isEmpty())
+                if (project.getCurrency()== null || !params.get("currency").contains(project.getCurrency()))
                     continue;
-            if (ncc!= null)
-                if (project.getNCC()== null || !project.getNCC().equals(ncc))
+            if (params.get("ncc") != null && !params.get("ncc").isEmpty())
+                if (project.getNCC()== null || !params.get("ncc").contains(project.getNCC()))
                     continue;
-            if (type!= null)
-                if (project.getType() == null || !project.getType().equals(type))
+            if (params.get("type") != null && !params.get("type").isEmpty())
+                if (project.getType() == null || !params.get("type").contains(project.getType()))
                     continue;
-            if (relations!= null)
-                if (project.getRelations()== null ||!project.getRelations().equals(relations))
+            if (params.get("relations") != null && !params.get("relations").isEmpty())
+                if (project.getRelations()== null || !params.get("relations").contains(project.getRelations()))
                     continue;
-            if(date != null)
-                if(project.getDate()== null ||!project.getDate().equals(date))
+            if(params.get("date") != null && !params.get("date").isEmpty())
+                if(project.getDate()== null || !params.get("date").contains(project.getDate().toString()))
                     continue;
-            if(budget!= null)
-                if(project.getBudget()== null ||!project.getBudget().equals(budget))
+            if(params.get("budget") != null && !params.get("budget").isEmpty())
+                if(project.getBudget()== null || !params.get("budget").contains(project.getBudget()))
                     continue;
-            if(status!= null)
-                if(project.getStatus()== null ||!project.getStatus().equals(status))
+            if(params.get("status") != null && !params.get("status").isEmpty())
+                if(project.getStatus()== null || !params.get("status").contains(project.getStatus()))
                     continue;
-            if(category!= null)
-                if(project.getCategory()== null ||!project.getCategory().equals(category))
+            if(params.get("category") != null && !params.get("category").isEmpty())
+                if(project.getCategory()== null || !params.get("category").contains(project.getCategory()))
                     continue;
-            if(!amount.isEmpty())
-                if(project.getAmount()== null || !project.getAmount().equals(amount))
+            if(params.get("amount") != null && !params.get("amount").isEmpty())
+                if(project.getAmount()== null || !params.get("amount").contains(project.getAmount()))
                     continue;
-            if(!description.isEmpty())
-                if(project.getDescription()== null ||!project.getDescription().equals(description))
+            if(params.get("description") != null && !params.get("description").isEmpty())
+                if(project.getDescription()== null || !params.get("description").contains(project.getDescription()))
                     continue;
             list.add(project);
         }
@@ -146,7 +146,7 @@ public class ProjectModel {
         }
     }
 
-    private ObservableList<Project> getListForTable(String name_table) {
+    public ObservableList<Project> getListForTable(String name_table) {
         switch (name_table)
         {
             case "tableView_data":
@@ -159,7 +159,4 @@ public class ProjectModel {
         return null;
     }
 
-    public ObservableList<Project> getProjectForTable(String name_table) {
-        return getListForTable(name_table);
-    }
 }

@@ -16,7 +16,8 @@ public class DataTable extends AbstractTable {
         list_columns.add(new TableColumn<>("Currency"));
         list_columns.add(new TableColumn<>("NCC"));
         list_columns.add(new TableColumn<>("Type"));
-        list_columns.add(new TableColumn<>("Date"));
+        list_columns.add(new TableColumn<>("Year"));
+        list_columns.add(new TableColumn<>("Month "));
         list_columns.add(new TableColumn<>("Budget"));
         list_columns.add(new TableColumn<>("Amount"));
         list_columns.add(new TableColumn<>("Description"));

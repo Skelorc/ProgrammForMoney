@@ -21,7 +21,8 @@ public class CurrencyView extends AbstractView {
     protected TextField tf_type_currency, tf_relations;
     @FXML
     protected Button btn_add_type, btn_remove_type, btn_add_row, btn_remove_row,
-            btn_add_relations, btn_clear_fields, btn_remove_column;
+            btn_add_relations, btn_clear_fields, btn_remove_column,
+            btn_export,btn_import;
     @FXML
     protected ComboBox<String> cb_first_value, cb_second_value, cb_type;
     @FXML

@@ -3,9 +3,10 @@ package controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import utils.Export;
 import views.AverageView;
 
-import static messages.StaticMessage.createInfoDialog;
+import static messages.StaticMessage.showProgressBar;
 import static models.Model.getModel;
 
 public class AverageController extends AverageView {
@@ -29,22 +30,21 @@ public class AverageController extends AverageView {
         if(id_button.equals(btn_find.getId()))
         {
             getModel().getDataByFilters(
-                    cb_from.getSelectionModel().getSelectedItem(),
-                    cb_to.getSelectionModel().getSelectedItem(),
-                    cb_currency.getSelectionModel().getSelectedItem(),
-                    cb_ncc.getSelectionModel().getSelectedItem(),
-                    cb_type.getSelectionModel().getSelectedItem(),
+                    ccb_from,
+                    ccb_to,
+                    ccb_currency,
+                    ccb_ncc,
+                    ccb_type,
                   null,
-                    dp_date.getValue(),
                     null,
                     null,
                     null,
-                    tf_amount.getText(),
-                    "",
+                    null,
+                    tf_filter_amount,
+                    null,
                     getTableView_average().getId()
             );
             showFilteredProjectsList();
-            clearFields();
         }
         if(id_button.equals(btn_clear_fields.getId()))
         {
@@ -55,5 +55,21 @@ public class AverageController extends AverageView {
             int index = getTableView_average().getSelectionModel().getSelectedIndex();
             getModel().deleteProject(index,getTableView_average().getId());
         }
+    }
+
+    @FXML
+    private void exportFile(ActionEvent actionEvent)
+    {
+        Export export = new Export();
+        export.createDocumentAndAddHeaders(getTableView_average(),"Average","Average");
+        export.addProjectData("Average",getModel().getProjectModel().getList_projects_average(),"Average");
+        showProgressBar();
+
+    }
+
+    @FXML
+    private void importFile(ActionEvent actionEvent)
+    {
+
     }
 }
