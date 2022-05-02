@@ -11,6 +11,7 @@ import views.tables.AverageTable;
 import java.util.Map;
 
 import static models.Model.getModel;
+import static textConst.StringConst.*;
 
 @Getter
 public class AverageView extends AbstractView{
@@ -34,16 +35,16 @@ public class AverageView extends AbstractView{
     protected void addValuesToComboBox() {
         Map<String, ObservableList<String>> allParams = getModel().getAllParams();
         ObservableList<String> allTypes = getModel().getAllTypes();
-        cb_from.setItems(allParams.get("from"));
-        ccb_from.getItems().addAll(allParams.get("from"));
-        cb_to.setItems(allParams.get("to"));
-        ccb_to.getItems().addAll(allParams.get("to"));
+        cb_from.setItems(allParams.get(FROM));
+        ccb_from.getItems().addAll(allParams.get(FROM));
+        cb_to.setItems(allParams.get(TO));
+        ccb_to.getItems().addAll(allParams.get(TO));
         cb_currency.setItems(allTypes);
         ccb_currency.getItems().addAll(allTypes);
-        cb_ncc.setItems(allParams.get("ncc"));
-        ccb_ncc.getItems().addAll(allParams.get("ncc"));
-        cb_type.setItems(allParams.get("type"));
-        ccb_type.getItems().addAll(allParams.get("type"));
+        cb_ncc.setItems(allParams.get(NCC));
+        ccb_ncc.getItems().addAll(allParams.get(NCC));
+        cb_type.setItems(allParams.get(TYPE));
+        ccb_type.getItems().addAll(allParams.get(TYPE));
     }
 
     @Override
@@ -83,4 +84,6 @@ public class AverageView extends AbstractView{
         clearTextField(tf_amount);
         clearTextField(tf_filter_amount);
     }
+
+
 }

@@ -1,6 +1,7 @@
 package service;
 
 import entity.BaseEntity;
+import entity.Params;
 import entity.Project;
 import org.apache.poi.ss.formula.functions.T;
 import org.hibernate.HibernateException;
@@ -49,5 +50,4 @@ public abstract class ServiceImpl implements Service{
 
         }
     }
-
 }

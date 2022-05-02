@@ -24,6 +24,7 @@ public class StaticMessage {
     public static void createErrorAlertDialog(String message) {
         alert = new Alert(Alert.AlertType.ERROR);
         String title_for_alert = "Error!";
+        alert.getDialogPane().setStyle("-fx-font-family: Segoe UI; -fx-font-size: 16;-fx-font-weight: Bold;");
         alert.setTitle(title_for_alert);
         alert.setHeaderText("Error");
         alert.setContentText(message);

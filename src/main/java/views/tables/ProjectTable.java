@@ -4,16 +4,17 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import static models.Model.getModel;
+import static textConst.StringConst.*;
 
 public class ProjectTable extends AbstractTable{
 
     @Override
     protected void addColumnsToList() {
-        list_columns.add(new TableColumn<>("From Location"));
-        list_columns.add(new TableColumn<>("To Project"));
-        list_columns.add(new TableColumn<>("Relations"));
-        list_columns.add(new TableColumn<>("Category"));
-        list_columns.add(new TableColumn<>("Status"));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_FROM));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_TO));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_RELATIONS));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_CATEGORY));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_STATUS));
     }
 
     @Override

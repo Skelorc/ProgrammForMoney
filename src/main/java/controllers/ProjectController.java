@@ -4,11 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import utils.Export;
+import utils.Import;
 import views.ProjectView;
 
 import static messages.StaticMessage.createInfoDialog;
 import static messages.StaticMessage.showProgressBar;
 import static models.Model.getModel;
+import static textConst.StringConst.NAME_TABLE_CURRENCY;
+import static textConst.StringConst.NAME_TABLE_PROJECT;
 
 public class ProjectController extends ProjectView {
 
@@ -61,16 +64,17 @@ public class ProjectController extends ProjectView {
     @FXML
     private void exportFile(ActionEvent actionEvent)
     {
-        Export export = new Export();
-        export.createDocumentAndAddHeaders(getTableView_project(),"Project","Project");
-        export.addProjectData("Project",getModel().getProjectModel().getList_projects_project(),"Project");
+        Export export = new Export(NAME_TABLE_PROJECT,getTableView_project());
+        export.createDocumentAndAddHeaders();
+        export.addProjectData();
         showProgressBar();
-        createInfoDialog("Данные будут сохранены в папке \"Export\" под названием \"Project Tab\"", null);
     }
 
     @FXML
     private void importFile(ActionEvent actionEvent)
     {
-
+        Import import_Excel = new Import();
+        import_Excel.findFile();
+        import_Excel.readFile(getTableView_project());
     }
 }

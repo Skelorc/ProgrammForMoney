@@ -1,6 +1,7 @@
 package models;
 
 import entity.Currency;
+import entity.Params;
 import entity.Project;
 import entity.Relations;
 import javafx.collections.ObservableList;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import static messages.StaticMessage.createErrorAlertDialog;
+import static textConst.StringConst.*;
 
 @Getter
 public class Model {
@@ -279,7 +281,7 @@ public class Model {
         {
             List<String> list = new ArrayList<>();
             list.add(date.getValue().toString());
-            param_map.put("date", list);
+            param_map.put(DATE, list);
         }
         if(ccb_budget != null)
         {
@@ -297,14 +299,32 @@ public class Model {
         {
             List<String> list = new ArrayList<>();
             list.add(amount.getText());
-            param_map.put("amount", list);
+            param_map.put(AMOUNT, list);
         }
         if(description != null && !description.getText().isEmpty())
         {
             List<String> list = new ArrayList<>();
             list.add(description.getText());
-            param_map.put("description", list);
+            param_map.put(DESCRIPTION, list);
         }
         projectModel.getDataByFilters(param_map, name_table);
+    }
+
+    public void addProjectsFromExcel(String name_table, List<Project> list) {
+        projectModel.addListProjects(name_table, list);
+    }
+
+    public void addCurrencyFromExcel(List<Currency> list)
+    {
+        currencyModel.addListCurrencyFromExcel(list);
+    }
+
+    public void checkParams(String params, String value) {
+        boolean b = paramsModel.checkParams(params, value);
+        if(!b) {
+            createErrorAlertDialog("Ошибка импорта данных! В программе не существуют параметр "+params + " или значение " + value+"." +
+                    " Для устранения ошибки, внесите данные параметры в программу, и попробуйте импортировать снова!");
+            throw new IllegalArgumentException("Ошибка добавления информации с файла! Не существуют параметры!");
+        }
     }
 }

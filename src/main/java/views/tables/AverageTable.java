@@ -4,18 +4,19 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import static models.Model.getModel;
+import static textConst.StringConst.*;
 
 public class AverageTable extends AbstractTable{
 
     @Override
     protected void addColumnsToList() {
-        list_columns.add(new TableColumn<>("From Location"));
-        list_columns.add(new TableColumn<>("To Project"));
-        list_columns.add(new TableColumn<>("Currency"));
-        list_columns.add(new TableColumn<>("NCC"));
-        list_columns.add(new TableColumn<>("Type"));
-        list_columns.add(new TableColumn<>("Month "));
-        list_columns.add(new TableColumn<>("Amount"));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_FROM));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_TO));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_CURRENCY));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_NCC));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_TYPE));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_MONTH_));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_AMOUNT));
     }
 
     @Override

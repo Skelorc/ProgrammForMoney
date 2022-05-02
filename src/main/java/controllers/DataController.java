@@ -4,10 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import utils.Export;
+import utils.Import;
 import views.DataView;
 
 import static messages.StaticMessage.showProgressBar;
 import static models.Model.getModel;
+import static textConst.StringConst.NAME_TABLE_DATA;
 
 
 public class DataController extends DataView {
@@ -123,9 +125,9 @@ public class DataController extends DataView {
     @FXML
     private void exportFile(ActionEvent actionEvent)
     {
-        Export export = new Export();
-        export.createDocumentAndAddHeaders(getTableView_data(),"Data","Data");
-        export.addProjectData("Data",getModel().getProjectModel().getList_projects_data(),"Data");
+        Export export = new Export(NAME_TABLE_DATA,getTableView_data());
+        export.createDocumentAndAddHeaders();
+        export.addProjectData();
         showProgressBar();
 
     }
@@ -133,6 +135,9 @@ public class DataController extends DataView {
     @FXML
     private void importFile(ActionEvent actionEvent)
     {
+        Import import_Excel = new Import();
+        import_Excel.findFile();
+        import_Excel.readFile(getTableView_data());
 
     }
 

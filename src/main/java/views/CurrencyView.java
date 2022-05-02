@@ -1,13 +1,11 @@
 package views;
 
 import entity.Currency;
-import entity.Project;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import lombok.Getter;
 import views.tables.CurrencyTable;
-import views.tables.Table;
 
 import static models.Model.getModel;
 
@@ -16,7 +14,7 @@ public class CurrencyView extends AbstractView {
 
 
     @FXML
-    private TableView<Currency> tableView;
+    private TableView<Currency> tableView_currency;
     @FXML
     protected TextField tf_type_currency, tf_relations;
     @FXML
@@ -39,7 +37,7 @@ public class CurrencyView extends AbstractView {
     @Override
     protected void createTable() {
         table = new CurrencyTable();
-        table.createTableView(tableView);
+        table.createTableView(tableView_currency);
     }
 
     @Override
@@ -59,7 +57,7 @@ public class CurrencyView extends AbstractView {
 
     protected void addColumnToTable() {
         CurrencyTable currencyTable = (CurrencyTable) table;
-        currencyTable.addColumn(tableView);
+        currencyTable.addColumn(tableView_currency);
     }
 
     @Override
@@ -76,12 +74,12 @@ public class CurrencyView extends AbstractView {
 
     protected void addNewRow() {
         CurrencyTable currencyTable = (CurrencyTable) table;
-        currencyTable.addRow(tableView);
+        currencyTable.addRow(tableView_currency);
     }
 
     protected void removeColumn() {
         CurrencyTable currencyTable = (CurrencyTable) table;
-        currencyTable.deleteColumn(tableView);
+        currencyTable.deleteColumn(tableView_currency);
     }
 
 

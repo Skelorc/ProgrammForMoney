@@ -13,8 +13,8 @@
         <property name="connection.password">328160</property>
 
 
-        <!--<property name="hbm2ddl.auto">create</property>-->
         <property name="hbm2ddl.auto">update</property>
+        <!--<property name="hbm2ddl.auto">update</property>-->
         <!--<property name="hbm2ddl.auto">validate</property>-->
         <!-- <property name="connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
 

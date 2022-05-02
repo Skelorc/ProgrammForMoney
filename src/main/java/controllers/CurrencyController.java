@@ -4,10 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import utils.Export;
+import utils.Import;
 import views.CurrencyView;
 
 import static messages.StaticMessage.*;
 import static models.Model.getModel;
+import static textConst.StringConst.NAME_TABLE_CURRENCY;
 
 public class CurrencyController extends CurrencyView {
 
@@ -49,7 +51,7 @@ public class CurrencyController extends CurrencyView {
         }
         if(id_button.equals(btn_remove_row.getId()))
         {
-            int index = getTableView().getSelectionModel().getSelectedIndex();
+            int index = getTableView_currency().getSelectionModel().getSelectedIndex();
             getModel().deleteCurrency(index);
         }
         if(id_button.equals(btn_remove_column.getId()))
@@ -63,9 +65,9 @@ public class CurrencyController extends CurrencyView {
     @FXML
     private void exportFile(ActionEvent actionEvent)
     {
-        Export export = new Export();
-        export.createDocumentAndAddHeaders(getTableView(),"Currency","Currency");
-        export.addCurrencyData(getModel().getCurrencyModel().getList_currency(),"Currency");
+        Export export = new Export(NAME_TABLE_CURRENCY,getTableView_currency());
+        export.createDocumentAndAddHeaders();
+        export.addCurrencyData();
         showProgressBar();
 
     }
@@ -73,7 +75,9 @@ public class CurrencyController extends CurrencyView {
     @FXML
     private void importFile(ActionEvent actionEvent)
     {
-
+        Import import_Excel = new Import();
+        import_Excel.findFile();
+        import_Excel.readFile(getTableView_currency());
     }
 
     @FXML

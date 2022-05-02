@@ -5,24 +5,25 @@ import javafx.scene.control.TableView;
 import lombok.Getter;
 
 import static models.Model.getModel;
+import static textConst.StringConst.*;
 
 @Getter
 public class DataTable extends AbstractTable {
 
     @Override
     protected void addColumnsToList() {
-        list_columns.add(new TableColumn<>("From Location"));
-        list_columns.add(new TableColumn<>("To Project"));
-        list_columns.add(new TableColumn<>("Currency"));
-        list_columns.add(new TableColumn<>("NCC"));
-        list_columns.add(new TableColumn<>("Type"));
-        list_columns.add(new TableColumn<>("Year"));
-        list_columns.add(new TableColumn<>("Month "));
-        list_columns.add(new TableColumn<>("Budget"));
-        list_columns.add(new TableColumn<>("Amount"));
-        list_columns.add(new TableColumn<>("Description"));
-        list_columns.add(new TableColumn<>("Category"));
-        list_columns.add(new TableColumn<>("Status"));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_FROM));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_TO));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_CURRENCY));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_NCC));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_TYPE));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_YEAR));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_MONTH_));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_BUDGET));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_AMOUNT));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_DESCRIPTION));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_CATEGORY));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_STATUS));
     }
 
     protected void addDataToTable(TableView tableView) {

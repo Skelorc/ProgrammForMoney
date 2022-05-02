@@ -14,6 +14,7 @@ import views.tables.ProjectTable;
 import java.util.Map;
 
 import static models.Model.getModel;
+import static textConst.StringConst.*;
 
 @Getter
 public class ProjectView extends AbstractView{
@@ -30,16 +31,16 @@ public class ProjectView extends AbstractView{
     @Override
     protected void addValuesToComboBox() {
         Map<String, ObservableList<String>> allParams = getModel().getAllParams();
-        cb_from.setItems(allParams.get("from"));
-        ccb_from.getItems().addAll(allParams.get("from"));
-        cb_to.setItems(allParams.get("to"));
-        ccb_to.getItems().addAll(allParams.get("to"));
-        cb_relations.setItems(allParams.get("relations"));
-        ccb_relations.getItems().addAll(allParams.get("relations"));
-        cb_category.setItems(allParams.get("category"));
-        ccb_category.getItems().addAll(allParams.get("category"));
-        cb_status.setItems(allParams.get("status"));
-        ccb_status.getItems().addAll(allParams.get("status"));
+        cb_from.setItems(allParams.get(FROM));
+        ccb_from.getItems().addAll(allParams.get(FROM));
+        cb_to.setItems(allParams.get(TO));
+        ccb_to.getItems().addAll(allParams.get(TO));
+        cb_relations.setItems(allParams.get(RELATIONS));
+        ccb_relations.getItems().addAll(allParams.get(RELATIONS));
+        cb_category.setItems(allParams.get(CATEGORY));
+        ccb_category.getItems().addAll(allParams.get(CATEGORY));
+        cb_status.setItems(allParams.get(STATUS));
+        ccb_status.getItems().addAll(allParams.get(STATUS));
     }
 
     @Override

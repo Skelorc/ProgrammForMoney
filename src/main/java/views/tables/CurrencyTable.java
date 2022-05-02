@@ -11,14 +11,15 @@ import service.CurrencyService;
 import java.time.LocalDate;
 
 import static models.Model.getModel;
+import static textConst.StringConst.*;
 
 public class CurrencyTable extends AbstractTable {
 
     @Override
     protected void addColumnsToList() {
-        list_columns.add(new TableColumn<>("Month"));
-        list_columns.add(new TableColumn<>("Year"));
-        list_columns.add(new TableColumn<>("Date "));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_MONTH));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_YEAR));
+        list_columns.add(new TableColumn<>(NAME_COLUMN_DATE_));
         ObservableList<String> columns = getModel().getColumns();
         columns.stream().forEach(x -> list_columns.add(new TableColumn<>(x)));
     }

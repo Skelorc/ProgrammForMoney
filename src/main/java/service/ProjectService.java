@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.HibernateSessionFactory;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,4 +24,5 @@ public class ProjectService extends ServiceImpl{
         }
         return list;
     }
+
 }

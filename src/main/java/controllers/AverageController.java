@@ -4,10 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import utils.Export;
+import utils.Import;
 import views.AverageView;
 
 import static messages.StaticMessage.showProgressBar;
 import static models.Model.getModel;
+import static textConst.StringConst.NAME_TABLE_AVERAGE;
 
 public class AverageController extends AverageView {
 
@@ -60,9 +62,9 @@ public class AverageController extends AverageView {
     @FXML
     private void exportFile(ActionEvent actionEvent)
     {
-        Export export = new Export();
-        export.createDocumentAndAddHeaders(getTableView_average(),"Average","Average");
-        export.addProjectData("Average",getModel().getProjectModel().getList_projects_average(),"Average");
+        Export export = new Export(NAME_TABLE_AVERAGE, getTableView_average());
+        export.createDocumentAndAddHeaders();
+        export.addProjectData();
         showProgressBar();
 
     }
@@ -70,6 +72,8 @@ public class AverageController extends AverageView {
     @FXML
     private void importFile(ActionEvent actionEvent)
     {
-
+        Import import_Excel = new Import();
+        import_Excel.findFile();
+        import_Excel.readFile(getTableView_average());
     }
 }

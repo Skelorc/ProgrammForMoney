@@ -139,6 +139,23 @@ public class CurrencyModel {
         list_currency.remove(index);
         currency = null;
     }
+
+    public void addListCurrencyFromExcel(List<Currency> list) {
+        CurrencyService currencyService = new CurrencyService();
+        for (int i = 0; i < list.size(); i++) {
+            Currency currency = list.get(i);
+            Currency byId = currencyService.findById(currency.getId());
+            if(byId != null) {
+                byId.setDate(currency.getDate());
+                byId.setRelations_list(currency.getRelations_list());
+                currencyService.saveOrUpdate(byId);
+            }
+            else
+                currencyService.saveOrUpdate(currency);
+        }
+        list_currency.clear();
+        list_currency.addAll(FXCollections.observableList(currencyService.getAllCurrency()));
+    }
 }
 
 

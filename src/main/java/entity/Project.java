@@ -53,13 +53,13 @@ public class Project implements BaseEntity{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Project that = (Project) o;
-        return Objects.equals(from, that.from) && Objects.equals(to, that.to) && Objects.equals(currency, that.currency) && Objects.equals(NCC, that.NCC) && Objects.equals(type, that.type) && Objects.equals(date, that.date) && Objects.equals(budget, that.budget) && Objects.equals(amount, that.amount) && Objects.equals(description, that.description);
+        Project project = (Project) o;
+        return id == project.id && Objects.equals(from, project.from) && Objects.equals(to, project.to) && Objects.equals(currency, project.currency) && Objects.equals(NCC, project.NCC) && Objects.equals(type, project.type) && Objects.equals(date, project.date) && Objects.equals(budget, project.budget) && Objects.equals(amount, project.amount) && Objects.equals(description, project.description) && Objects.equals(relations, project.relations) && Objects.equals(category, project.category) && Objects.equals(status, project.status) && Objects.equals(name_table, project.name_table);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(from, to, currency, NCC, type, date, budget, amount, description);
+        return Objects.hash(id, from, to, currency, NCC, type, date, budget, amount, description, relations, category, status, name_table);
     }
 
     public String getMonth()

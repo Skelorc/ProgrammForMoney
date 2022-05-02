@@ -1,6 +1,5 @@
 package utils;
 
-import entity.BaseEntity;
 import entity.Currency;
 import entity.Project;
 import entity.Relations;
@@ -19,25 +18,45 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static messages.StaticMessage.*;
+import static messages.StaticMessage.closeProgressBar;
+import static messages.StaticMessage.createErrorAlertDialog;
+import static textConst.StringConst.*;
 
 public class Export {
     private static final Logger logger = LoggerFactory.getLogger(Export.class);
     private Workbook workbook;
     private Sheet sheet;
     private CellStyle style;
+    private String name_table;
+    private TableView table;
+    private List<Project> list_projects;
+    private List<Currency> list_currency;
 
-    public void createDocumentAndAddHeaders(TableView table, String name_sheet, String name_table) {
+    public Export(String name_table, TableView table) {
+        this.name_table = name_table;
+        this.table = table;
+        if (table.getId().equals(ID_TABLE_CURRENCY)) {
+            list_currency = new ArrayList<>();
+            list_currency.addAll(table.getItems());
+        }
+        else {
+            list_projects = new ArrayList<>();
+            list_projects.addAll(table.getItems());
+        }
+    }
+
+    public void createDocumentAndAddHeaders() {
         workbook = new XSSFWorkbook();
-        sheet = workbook.createSheet(name_sheet);
+        sheet = workbook.createSheet(name_table);
 
         Row row_name_table = sheet.createRow(0);
         Row rows_headers = sheet.createRow(1);
-        int size = table.getColumns().size()-1;
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, size));
+        int size = table.getColumns().size() - 1;
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, size+1));
 
         CellStyle headerStyle = workbook.createCellStyle();
         headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
@@ -78,25 +97,31 @@ public class Export {
     }
 
     private void createCells(TableView table, Row rows_headers, CellStyle headerStyle) {
+        Cell id_cell = rows_headers.createCell(0);
+        id_cell.setCellValue("ID");
+        id_cell.setCellStyle(headerStyle);
         ObservableList columns = table.getColumns();
         for (int i = 0; i < columns.size(); i++) {
             TableColumn o = (TableColumn) columns.get(i);
             String name_column = o.getText();
-            Cell headerCell = rows_headers.createCell(i);
+            Cell headerCell = rows_headers.createCell(i+1);
             headerCell.setCellValue(name_column);
             headerCell.setCellStyle(headerStyle);
         }
     }
 
-    public void addProjectData(String name_tab, ObservableList<Project> list_result, String filename) {
+    public void addProjectData() {
         Platform.runLater(() ->
                 {
                     try {
-
-                        for (int i = 0; i < list_result.size(); i++) {
+                        for (int i = 0; i < list_projects.size(); i++) {
                             int count_cell = 0;
                             Row row = sheet.createRow(i + 2);
-                            Project project = list_result.get(i);
+                            Project project = list_projects.get(i);
+                            Cell id = row.createCell(count_cell++);
+                            id.setCellValue(project.getId());
+                            id.setCellStyle(style);
+
                             Cell from_cell = row.createCell(count_cell++);
                             from_cell.setCellValue(project.getFrom());
                             from_cell.setCellStyle(style);
@@ -105,8 +130,8 @@ public class Export {
                             to_cell.setCellValue(project.getTo());
                             to_cell.setCellStyle(style);
 
-                            switch (name_tab) {
-                                case "Project":
+                            switch (name_table) {
+                                case NAME_TABLE_PROJECT:
                                     Cell relations_cell = row.createCell(count_cell++);
                                     relations_cell.setCellValue(project.getRelations());
                                     relations_cell.setCellStyle(style);
@@ -125,7 +150,7 @@ public class Export {
                                     sheet.autoSizeColumn(status_cell.getColumnIndex());
 
                                     break;
-                                case "Average":
+                                case NAME_TABLE_AVERAGE:
                                     Cell currency_cell = row.createCell(count_cell++);
                                     currency_cell.setCellValue(project.getCurrency());
                                     currency_cell.setCellStyle(style);
@@ -152,7 +177,7 @@ public class Export {
                                     sheet.autoSizeColumn(month_cell.getColumnIndex());
                                     sheet.autoSizeColumn(amount_cell.getColumnIndex());
                                     break;
-                                case "Data":
+                                case NAME_TABLE_DATA:
                                     Cell cur_cell = row.createCell(count_cell++);
                                     cur_cell.setCellValue(project.getCurrency());
                                     cur_cell.setCellStyle(style);
@@ -209,7 +234,7 @@ public class Export {
                             sheet.autoSizeColumn(from_cell.getColumnIndex());
                             sheet.autoSizeColumn(to_cell.getColumnIndex());
                         }
-                        createFile(filename);
+                        createFile(name_table);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -222,14 +247,18 @@ public class Export {
         );
     }
 
-    public void addCurrencyData(ObservableList<Currency> list_result, String filename) {
+    public void addCurrencyData() {
         Platform.runLater(() ->
                 {
                     try {
-                        for (int i = 0; i < list_result.size(); i++) {
+                        for (int i = 0; i < list_currency.size(); i++) {
                             int count_cell = 0;
                             Row row = sheet.createRow(i + 2);
-                            Currency currency = list_result.get(i);
+                            Currency currency = list_currency.get(i);
+
+                            Cell id = row.createCell(count_cell++);
+                            id.setCellValue(currency.getId());
+                            id.setCellStyle(style);
 
                             Cell month_cel = row.createCell(count_cell++);
                             month_cel.setCellValue(currency.getDate().getMonthValue());
@@ -262,7 +291,7 @@ public class Export {
                         logger.error(e.toString());
                         throw e;
                     }
-                    createFile(filename);
+                    createFile(name_table);
                 }
 
         );
