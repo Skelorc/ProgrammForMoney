@@ -1,5 +1,6 @@
 package models;
 
+import dto.Transaction;
 import entity.Project;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,10 +10,9 @@ import lombok.Setter;
 import service.ProjectService;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
+import static messages.StaticMessage.createErrorAlertDialog;
 import static textConst.StringConst.*;
 
 
@@ -21,10 +21,13 @@ import static textConst.StringConst.*;
 public class ProjectModel {
 
     private Project project;
-    private ObservableList<Project> list_projects_project;
+    private ObservableList<Project> list_projects_dictionary;
     private ObservableList<Project> list_projects_data;
     private ObservableList<Project> list_projects_average;
+    private ObservableList<Project> list_projects_balance;
     private ObservableList<Project> filtered_list_projects;
+    private TransactionModel transactionModel;
+
 
     public ProjectModel() {
         ProjectService projectService = new ProjectService();
@@ -33,68 +36,13 @@ public class ProjectModel {
     }
 
 
-    public void createNewProject(@NonNull String to, @NonNull String from, @NonNull String currency, @NonNull String cc,
-                                 @NonNull String type, @NonNull LocalDate value, String budget, String amount, String desc, String name_table) {
-        project = new Project(to, from, currency, cc, type, value, budget, amount, desc, name_table);
-        createProjectAndAddToList();
-    }
 
-    public void updateProject(Project project) {
-        ProjectService projectService = new ProjectService();
-        projectService.saveOrUpdate(project);
-    }
-
-    public void delete(int index, String name_table) {
-        ObservableList<Project> listForTable = getListForTable(name_table);
-        project = listForTable.get(index);
-        ProjectService projectService = new ProjectService();
-        projectService.delete(project);
-        listForTable.remove(project);
-        project = null;
-    }
-
-    public void createNewProject(@NonNull String to, @NonNull String from,
-                                 @NonNull String relations, @NonNull String category,
-                                 @NonNull String status, String name_table) {
-        project = new Project();
-        project.setTo(to);
-        project.setFrom(from);
-        project.setRelations(relations);
-        project.setCategory(category);
-        project.setStatus(status);
-        project.setName_table(name_table);
-        createProjectAndAddToList();
-    }
-
-    public void createNewProject(@NonNull String to, @NonNull String from, @NonNull String currency,
-                                 @NonNull String ncc, @NonNull String type,
-                                 @NonNull LocalDate date, String amount, String name_table) {
-        project = new Project();
-        project.setTo(to);
-        project.setFrom(from);
-        project.setCurrency(currency);
-        project.setNCC(ncc);
-        project.setType(type);
-        project.setDate(date);
-        project.setAmount(amount);
-        project.setName_table(name_table);
-        createProjectAndAddToList();
-    }
-
-
-    private void createProjectAndAddToList() {
-        ProjectService projectService = new ProjectService();
-        projectService.saveOrUpdate(project);
-        ObservableList<Project> list = getListForTable(project.getName_table());
-        list.add(project);
-    }
 
     public void getDataByFilters(HashMap<String, List<String>> params, String name_table) {
         List<Project> list = new ArrayList<>();
         ObservableList<Project> observableList = getListForTable(name_table);
         for (int i = 0; i < observableList.size(); i++) {
             Project project = observableList.get(i);
-            System.out.println(project.toString());
             if (params.get(FROM) != null && !params.get(FROM).isEmpty())
                 if (project.getFrom() == null || !params.get(FROM).contains(project.getFrom()))
                     continue;
@@ -126,7 +74,7 @@ public class ProjectModel {
                 if (project.getCategory() == null || !params.get(CATEGORY).contains(project.getCategory()))
                     continue;
             if (params.get(AMOUNT) != null && !params.get(AMOUNT).isEmpty())
-                if (project.getAmount() == null || !params.get(AMOUNT).contains(project.getAmount()))
+                if (project.getAmount() == 0 || !params.get(AMOUNT).contains(String.valueOf(project.getAmount())))
                     continue;
             if (params.get(DESCRIPTION) != null && !params.get(DESCRIPTION).isEmpty())
                 if (project.getDescription() == null || !params.get(DESCRIPTION).contains(project.getDescription()))
@@ -136,15 +84,6 @@ public class ProjectModel {
         filtered_list_projects = FXCollections.observableArrayList(list);
     }
 
-    private void addObjectsToLists(List<Project> allProjects) {
-        list_projects_data = FXCollections.observableArrayList(new ArrayList<>());
-        list_projects_average = FXCollections.observableArrayList(new ArrayList<>());
-        list_projects_project = FXCollections.observableArrayList(new ArrayList<>());
-        for (int i = 0; i < allProjects.size(); i++) {
-            Project project = allProjects.get(i);
-            getListForTable(project.getName_table()).add(project);
-        }
-    }
 
     public ObservableList<Project> getListForTable(String name_table) {
         switch (name_table) {
@@ -153,23 +92,146 @@ public class ProjectModel {
             case ID_TABLE_AVERAGE:
                 return list_projects_average;
             case ID_TABLE_PROJECT:
-                return list_projects_project;
+                return list_projects_dictionary;
+            case ID_TABLE_BALANCE:
+                return list_projects_balance;
         }
         return null;
     }
 
-    public void addListProjects(String name_table, List<Project> list) {
-        ObservableList<Project> listForTable = getListForTable(name_table);
-        ProjectService service = new ProjectService();
+    public void addListProjects(List<Project> list) {
         for (int i = 0; i < list.size(); i++) {
-            Project project = list.get(i);
-            service.saveOrUpdate(project);
+            project = list.get(i);
+            saveProjectAndAddToList();
         }
-        listForTable.clear();
-        List<Project> all = service.getAll();
-        for (int i = 0; i < all.size(); i++) {
-            Project project = all.get(i);
+    }
+
+    public void createNewProject(String from, String to, String currency, String ncc,
+                                 String type, LocalDate date, String relations, String category, String status, String budget, String amount, String desc, String name_table) {
+        switch (name_table) {
+            case ID_TABLE_PROJECT:
+                createProjectFromProject(from, to, relations, category, status, name_table);
+                break;
+            case ID_TABLE_AVERAGE:
+                createProjectFromAverage(from, to, currency, ncc, type, date, amount, name_table);
+                break;
+            case ID_TABLE_DATA:
+                createProjectFromData(from, to, currency, ncc, type, date, budget, amount, desc, name_table);
+                break;
+            case ID_TABLE_BALANCE:
+                createProjectFromBalance(from, currency, ncc, date, amount, name_table);
+                break;
+        }
+        saveProjectAndAddToList();
+    }
+
+
+    public void updateProject(Project project) {
+        ProjectService projectService = new ProjectService();
+        projectService.saveOrUpdate(project);
+    }
+
+    public void delete(int index, String name_table) {
+        ObservableList<Project> listForTable = getListForTable(name_table);
+        project = listForTable.get(index);
+        ProjectService projectService = new ProjectService();
+        projectService.delete(project);
+        listForTable.remove(project);
+        project = null;
+    }
+
+    private void saveProjectAndAddToList() throws NullPointerException {
+        boolean add_relations = false;
+        if (project.getName_table().equals(ID_TABLE_PROJECT) || project.getName_table().equals(ID_TABLE_BALANCE))
+            add_relations = true;
+        if (project.getRelations() == null || project.getRelations().isEmpty()) {
+            for (Project p : list_projects_dictionary) {
+                if (p.getFrom().equals(project.getFrom()) && p.getTo().equals(project.getTo())) {
+                    project.setRelations(p.getRelations());
+                    add_relations = true;
+                    break;
+                }
+            }
+        }
+        if (!add_relations) {
+            createErrorAlertDialog("Не найдено Relations для " + project.getFrom() + " и " + project.getTo());
+            throw new IllegalArgumentException("Не найдено Relations для " + project.getFrom() + " и " + project.getTo());
+        }
+        ProjectService projectService = new ProjectService();
+        projectService.saveOrUpdate(project);
+        ObservableList<Project> list = getListForTable(project.getName_table());
+        list.add(project);
+    }
+
+    private void addObjectsToLists(List<Project> allProjects) {
+        list_projects_data = FXCollections.observableArrayList(new ArrayList<>());
+        list_projects_average = FXCollections.observableArrayList(new ArrayList<>());
+        list_projects_dictionary = FXCollections.observableArrayList(new ArrayList<>());
+        list_projects_balance = FXCollections.observableArrayList(new ArrayList<>());
+        for (int i = 0; i < allProjects.size(); i++) {
+            Project project = allProjects.get(i);
             getListForTable(project.getName_table()).add(project);
         }
     }
+
+    private void createProjectFromAverage(@NonNull String from, @NonNull String to, @NonNull String currency,
+                                          @NonNull String ncc, @NonNull String type, @NonNull LocalDate date, String amount, String name_table) {
+        project = new Project();
+        project.setFrom(from);
+        project.setTo(to);
+        project.setCurrency(currency);
+        project.setNCC(ncc);
+        project.setType(type);
+        project.setDate(date);
+        project.setBudget("Budget");
+        if (amount != null && !amount.isEmpty())
+            project.setAmount(Integer.parseInt(amount));
+        else
+            project.setAmount(0);
+        project.setName_table(name_table);
+    }
+
+    private void createProjectFromProject(@NonNull String from, @NonNull String to, @NonNull String relations, @NonNull String category, @NonNull String status, String name_table) {
+        project = new Project();
+        project.setFrom(from);
+        project.setTo(to);
+        project.setRelations(relations);
+        project.setCategory(category);
+        project.setStatus(status);
+        project.setName_table(name_table);
+    }
+
+    private void createProjectFromBalance(@NonNull String from, @NonNull String currency, @NonNull String ncc, @NonNull LocalDate date, @NonNull String amount, @NonNull String name_table) {
+        project = new Project();
+        project.setFrom(from);
+        project.setCurrency(currency);
+        project.setNCC(ncc);
+        project.setDate(date);
+        if (!amount.isEmpty())
+            project.setAmount(Integer.parseInt(amount));
+        else
+            project.setAmount(0);
+        project.setName_table(name_table);
+    }
+
+    private void createProjectFromData(@NonNull String from, @NonNull String to, @NonNull String currency, @NonNull String ncc,
+                                       @NonNull String type, @NonNull LocalDate date, @NonNull String budget, String amount, String desc, String name_table) {
+        project = new Project();
+        project.setFrom(from);
+        project.setTo(to);
+        project.setCurrency(currency);
+        project.setNCC(ncc);
+        project.setType(type);
+        project.setDate(date);
+        project.setBudget(budget);
+        if (amount != null && !amount.isEmpty())
+            project.setAmount(Integer.parseInt(amount));
+        else
+            project.setAmount(0);
+        project.setDescription(desc);
+        project.setName_table(name_table);
+    }
+
+
+
 }

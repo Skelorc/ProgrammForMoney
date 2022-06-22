@@ -1,7 +1,7 @@
 package models;
 
+import dto.Transaction;
 import entity.Currency;
-import entity.Params;
 import entity.Project;
 import entity.Relations;
 import javafx.collections.ObservableList;
@@ -14,10 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import static messages.StaticMessage.createErrorAlertDialog;
 import static textConst.StringConst.*;
@@ -40,61 +38,35 @@ public class Model {
     private final ProjectModel projectModel = new ProjectModel();
     private final ParamsModel paramsModel = new ParamsModel();
     private final CurrencyModel currencyModel = new CurrencyModel();
+    private final TransactionModel transactionModel = new TransactionModel();
 
 
     /*Tab Data*/
-    public void saveNewDataObject(ComboBox<String> cb_to, ComboBox<String> cb_from, ComboBox<String> cb_currency, ComboBox<String> cb_cc,
-                                  ComboBox<String> cb_type, DatePicker datePicker, ComboBox<String> cb_budget, TextField tf_amount,
-                                  TextField description, String name_table) {
+    public void saveNewProject(ComboBox<String> cb_to, ComboBox<String> cb_from, ComboBox<String> cb_currency, ComboBox<String> cb_ncc,
+                               ComboBox<String> cb_type, TextField tf_date,
+                               ComboBox<String> cb_relations, ComboBox<String> cb_category,
+                               ComboBox<String> cb_status, ComboBox<String> cb_budget, TextField tf_amount,
+                               TextField tf_description, String name_table) {
+        String to = checkComboBoxValue(cb_to);
+        String from = checkComboBoxValue(cb_from);
+        String currency = checkComboBoxValue(cb_currency);
+        String ncc = checkComboBoxValue(cb_ncc);
+        String type = checkComboBoxValue(cb_type);
+        LocalDate date = createDateFromString(tf_date);
+        String relations = checkComboBoxValue(cb_relations);
+        String category = checkComboBoxValue(cb_category);
+        String status = checkComboBoxValue(cb_status);
+        String budget = checkComboBoxValue(cb_budget);
+        String amount = checkTextField(tf_amount);
+        String desc = checkTextField(tf_description);
         try {
-            String to = cb_to.getSelectionModel().getSelectedItem();
-            String from = cb_from.getSelectionModel().getSelectedItem();
-            String currency = cb_currency.getSelectionModel().getSelectedItem();
-            String cc = cb_cc.getSelectionModel().getSelectedItem();
-            String type = cb_type.getSelectionModel().getSelectedItem();
-            LocalDate value = datePicker.getValue();
-            String budget = cb_budget.getSelectionModel().getSelectedItem();
-            String amount = tf_amount.getText();
-            String desc = description.getText();
-            projectModel.createNewProject(to, from, currency, cc, type, value, budget, amount, desc, name_table);
-        } catch (NullPointerException e) {
-            createErrorAlertDialog("Ошибка при создании новой записи! Вы должны выбрать все параметры!");
+            projectModel.createNewProject(to, from, currency, ncc, type, date, relations, category, status, budget, amount, desc, name_table);
         }
-
-    }
-
-    public void saveNewDataObject(ComboBox<String> cb_to, ComboBox<String> cb_from,
-                                  ComboBox<String> cb_relations, ComboBox<String> cb_category,
-                                  ComboBox<String> cb_status, String name_table) {
-        try
+        catch (NullPointerException exception)
         {
-            String to = cb_to.getSelectionModel().getSelectedItem();
-            String from = cb_from.getSelectionModel().getSelectedItem();
-            String relations = cb_relations.getSelectionModel().getSelectedItem();
-            String category = cb_category.getSelectionModel().getSelectedItem();
-            String status = cb_status.getSelectionModel().getSelectedItem();
-            projectModel.createNewProject(to, from, relations,category,status,name_table);
-        }
-        catch (NullPointerException e) {
-            createErrorAlertDialog("Ошибка при создании новой записи! Вы должны выбрать все параметры!");
-        }
-    }
-    public void saveNewDataObject(ComboBox<String> cb_to, ComboBox<String> cb_from, ComboBox<String> cb_currency,
-                                  ComboBox<String> cb_ncc, ComboBox<String> cb_type,
-                                  DatePicker dp_date, TextField tf_amount, String name_table) {
-        try
-        {
-            String to = cb_to.getSelectionModel().getSelectedItem();
-            String from = cb_from.getSelectionModel().getSelectedItem();
-            String currency = cb_currency.getSelectionModel().getSelectedItem();
-            String ncc = cb_ncc.getSelectionModel().getSelectedItem();
-            String type = cb_type.getSelectionModel().getSelectedItem();
-            LocalDate date = dp_date.getValue();
-            String amount = tf_amount.getText();
-            projectModel.createNewProject(to, from, currency,ncc,type, date, amount, name_table);
-        }
-        catch (NullPointerException e) {
-            createErrorAlertDialog("Ошибка при создании новой записи! Вы должны выбрать все параметры!");
+            String message = exception.getMessage();
+            String null_field = message.substring(0,message.indexOf(" "));
+            createErrorAlertDialog("Ошибка заполнения данных! Проверьте поле "+ null_field +"!");
         }
     }
 
@@ -102,25 +74,23 @@ public class Model {
         return projectModel.getListForTable(name_table);
     }
 
-    public ObservableList<Project> getFilteredProjects()
-    {
+    public ObservableList<Project> getFilteredProjects() {
         return projectModel.getFiltered_list_projects();
     }
 
     public void updateProject(Project project) {
-       projectModel.updateProject(project);
+        projectModel.updateProject(project);
     }
 
     public void deleteProject(int index, String name_table) {
         try {
             projectModel.delete(index, name_table);
-        }
-        catch (Exception e)
-        {
-            logger.error("Error when delete row {}",index,e);
+        } catch (Exception e) {
+            logger.error("Error when delete row {}", index, e);
             createErrorAlertDialog("Ошибка! Вы пытаетесь удалить несуществующую строку!");
         }
     }
+
 
 
     public void saveNewParams(ComboBox<String> box, TextField textField) {
@@ -163,10 +133,6 @@ public class Model {
         return currencyModel.getList_currency();
     }
 
-    public Currency getCurrency() {
-        return currencyModel.getCurrency();
-    }
-
     public void setCurrencyForEdit(Currency currencyForEdit) {
         currencyModel.setCurrency(currencyForEdit);
     }
@@ -175,12 +141,11 @@ public class Model {
         return currencyModel.getList_types();
     }
 
-    public ObservableList<String> getColumns() {
+    public ObservableList<String> getColumnsByCurrency() {
         return currencyModel.getList_name_columns();
     }
 
-    public ObservableList<String> getAllTypes()
-    {
+    public ObservableList<String> getAllTypes() {
         return currencyModel.getList_types();
     }
 
@@ -201,10 +166,8 @@ public class Model {
     public void deleteCurrency(int index) {
         try {
             currencyModel.delete(index);
-        }
-        catch (Exception e)
-        {
-            logger.error("Error when delete row {}",index,e);
+        } catch (Exception e) {
+            logger.error("Error when delete row {}", index, e);
             createErrorAlertDialog("Ошибка! Вы пытаетесь удалить несуществующую строку!");
         }
 
@@ -253,56 +216,44 @@ public class Model {
                                  DatePicker date, CheckComboBox<String> ccb_budget, CheckComboBox<String> ccb_status,
                                  CheckComboBox<String> ccb_category, TextField amount, TextField description, String name_table) {
         HashMap<String, List<String>> param_map = new HashMap<>();
-        if(ccb_from != null)
-        {
-            param_map.put(ccb_from.getTitle(),ccb_from.getCheckModel().getCheckedItems());
+        if (ccb_from != null) {
+            param_map.put(ccb_from.getTitle(), ccb_from.getCheckModel().getCheckedItems());
         }
-        if(ccb_to != null)
-        {
-            param_map.put(ccb_to.getTitle(),ccb_to.getCheckModel().getCheckedItems());
+        if (ccb_to != null) {
+            param_map.put(ccb_to.getTitle(), ccb_to.getCheckModel().getCheckedItems());
         }
-        if(ccb_currency != null)
-        {
-            param_map.put(ccb_currency.getTitle(),ccb_currency.getCheckModel().getCheckedItems());
+        if (ccb_currency != null) {
+            param_map.put(ccb_currency.getTitle(), ccb_currency.getCheckModel().getCheckedItems());
         }
-        if(ccb_ncc != null)
-        {
-            param_map.put(ccb_ncc.getTitle(),ccb_ncc.getCheckModel().getCheckedItems());
+        if (ccb_ncc != null) {
+            param_map.put(ccb_ncc.getTitle(), ccb_ncc.getCheckModel().getCheckedItems());
         }
-        if(ccb_type != null)
-        {
-            param_map.put(ccb_type.getTitle(),ccb_type.getCheckModel().getCheckedItems());
+        if (ccb_type != null) {
+            param_map.put(ccb_type.getTitle(), ccb_type.getCheckModel().getCheckedItems());
         }
-        if(ccb_relations != null)
-        {
-            param_map.put(ccb_relations.getTitle(),ccb_relations.getCheckModel().getCheckedItems());
+        if (ccb_relations != null) {
+            param_map.put(ccb_relations.getTitle(), ccb_relations.getCheckModel().getCheckedItems());
         }
-        if(date != null && date.getValue() != null)
-        {
+        if (date != null && date.getValue() != null) {
             List<String> list = new ArrayList<>();
             list.add(date.getValue().toString());
             param_map.put(DATE, list);
         }
-        if(ccb_budget != null)
-        {
-            param_map.put(ccb_budget.getTitle(),ccb_budget.getCheckModel().getCheckedItems());
+        if (ccb_budget != null) {
+            param_map.put(ccb_budget.getTitle(), ccb_budget.getCheckModel().getCheckedItems());
         }
-        if(ccb_status != null)
-        {
-            param_map.put(ccb_status.getTitle(),ccb_status.getCheckModel().getCheckedItems());
+        if (ccb_status != null) {
+            param_map.put(ccb_status.getTitle(), ccb_status.getCheckModel().getCheckedItems());
         }
-        if(ccb_category != null)
-        {
-            param_map.put(ccb_category.getTitle(),ccb_category.getCheckModel().getCheckedItems());
+        if (ccb_category != null) {
+            param_map.put(ccb_category.getTitle(), ccb_category.getCheckModel().getCheckedItems());
         }
-        if(amount != null && !amount.getText().isEmpty())
-        {
+        if (amount != null && !amount.getText().isEmpty()) {
             List<String> list = new ArrayList<>();
             list.add(amount.getText());
             param_map.put(AMOUNT, list);
         }
-        if(description != null && !description.getText().isEmpty())
-        {
+        if (description != null && !description.getText().isEmpty()) {
             List<String> list = new ArrayList<>();
             list.add(description.getText());
             param_map.put(DESCRIPTION, list);
@@ -310,21 +261,82 @@ public class Model {
         projectModel.getDataByFilters(param_map, name_table);
     }
 
-    public void addProjectsFromExcel(String name_table, List<Project> list) {
-        projectModel.addListProjects(name_table, list);
+    public void addProjectsFromExcel(List<Project> list) {
+        projectModel.addListProjects(list);
     }
 
-    public void addCurrencyFromExcel(List<Currency> list)
-    {
+    public void addCurrencyFromExcel(List<Currency> list) {
         currencyModel.addListCurrencyFromExcel(list);
     }
 
     public void checkParams(String params, String value) {
         boolean b = paramsModel.checkParams(params, value);
-        if(!b) {
-            createErrorAlertDialog("Ошибка импорта данных! В программе не существуют параметр "+params + " или значение " + value+"." +
+        if (!b) {
+            createErrorAlertDialog("Ошибка импорта данных! В программе не существуют параметр " + params + " или значение " + value + "." +
                     " Для устранения ошибки, внесите данные параметры в программу, и попробуйте импортировать снова!");
             throw new IllegalArgumentException("Ошибка добавления информации с файла! Не существуют параметры!");
         }
+    }
+
+    /*Cash*/
+
+
+
+    public void createMapProjectsForCash(LocalDate report_date, LocalDate scale_Date,String currency) {
+        transactionModel.createMap(report_date,scale_Date,currency);
+    }
+
+    public List<Transaction> getResultListForCash() {
+        return transactionModel.getResult_list();
+    }
+
+    public List<Transaction> getNodesListForCash()
+    {
+        return transactionModel.getNodes_list();
+    }
+
+
+    /*Utils*/
+    private String checkComboBoxValue(ComboBox<String> box) {
+        if (box != null) {
+            return box.getSelectionModel().getSelectedItem();
+        } else
+            return "";
+    }
+
+    private String checkTextField(TextField textField) {
+        if (textField != null) {
+            return textField.getText();
+        } else
+            return "";
+    }
+
+
+    public LocalDate createDateFromString(TextField date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-M-d", Locale.US);
+        if (date != null) {
+            String dateText = date.getText();
+            if (dateText.contains("."))
+                dateText = dateText.replaceAll("\\.", "-");
+            if (dateText.contains(","))
+                dateText = dateText.replaceAll(",", "-");
+            if (dateText.contains("/"))
+                dateText = dateText.replaceAll("/", "-");
+            String[] split = dateText.split("-");
+            if (split[0].length() == 2 && split[1].length() == 4) {
+                String date_result = split[1] + "-" + split[0] + "-01";
+                LocalDate localDate = LocalDate.parse(date_result, formatter);
+                return localDate;
+            } else {
+                createErrorAlertDialog("Ошибка при указании даты! Введите дату в следующем формате: месяц-год. (01.2022).");
+                throw new IllegalArgumentException("Ошибка при указании даты! Введите дату в следующем формате: месяц.год (Например: 01.2022).");
+            }
+        }
+        else
+        {
+            return LocalDate.parse(LocalDate.now().getYear()+"-"+LocalDate.now().getMonthValue()+"-01", formatter);
+        }
+
+
     }
 }

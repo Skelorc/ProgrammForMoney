@@ -17,18 +17,16 @@ import static textConst.StringConst.*;
 public class AverageView extends AbstractView{
 
     @FXML
-    protected Button btn_add,btn_show_all,btn_clear_fields, btn_find, btn_remove,
+    protected Button btn_add,btn_show_all,btn_clear_fields, btn_find, btn_delete,
     btn_export, btn_import;
     @FXML
     protected ComboBox<String> cb_from, cb_to, cb_currency, cb_ncc, cb_type;
     @FXML
     protected CheckComboBox<String> ccb_from, ccb_to, ccb_currency, ccb_ncc, ccb_type;
     @FXML
-    protected DatePicker dp_date;
+    protected TextField tf_amount,tf_filter_amount,tf_date;
     @FXML
-    protected TextField tf_amount,tf_filter_amount;
-    @FXML
-    private TableView<Project> tableView_average;
+    protected TableView<Project> tableView_average;
 
 
     @Override
@@ -80,7 +78,7 @@ public class AverageView extends AbstractView{
         ccb_ncc.getCheckModel().clearChecks();
         cb_type.getSelectionModel().clearSelection();
         ccb_type.getCheckModel().clearChecks();
-        dp_date.getEditor().clear();
+        clearTextField(tf_date);
         clearTextField(tf_amount);
         clearTextField(tf_filter_amount);
     }

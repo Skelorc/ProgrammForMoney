@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -69,8 +69,8 @@
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -101,7 +101,6 @@
                         <Font name="Segoe UI Bold" size="15.0" />
                      </font>
                   </Label>
-                  <DatePicker fx:id="dp_date" prefHeight="25.0" prefWidth="99.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                   <Label prefHeight="19.0" prefWidth="35.0" text="Date" underline="true" GridPane.columnIndex="5">
                      <font>
                         <Font name="Segoe UI Bold" size="15.0" />
@@ -118,10 +117,21 @@
                           <Font name="Segoe UI Bold" size="15.0" />
                       </font>
                   </Label>
-                  <TextField fx:id="tf_amount" promptText="amount..." GridPane.columnIndex="6" GridPane.rowIndex="1">
+                  <TextField fx:id="tf_amount" prefHeight="23.0" prefWidth="65.0" promptText="amount..." GridPane.columnIndex="6" GridPane.rowIndex="1">
                      <font>
                         <Font name="Segoe UI" size="12.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="tf_date" prefHeight="23.0" prefWidth="53.0" promptText="date..." GridPane.columnIndex="5" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Segoe UI" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </GridPane.margin>
                   </TextField>
                </children>
             </GridPane>
@@ -132,7 +142,7 @@
                           <Font name="Segoe UI Bold" size="13.0" />
                       </font>
                   </Button>
-                  <Button fx:id="btn_remove" mnemonicParsing="false" onAction="#averageControls" text="Remove" textFill="#971717">
+                  <Button fx:id="btn_delete" mnemonicParsing="false" onAction="#averageControls" text="Remove" textFill="#971717">
                       <font>
                           <Font name="Segoe UI Bold" size="13.0" />
                       </font>

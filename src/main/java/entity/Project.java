@@ -29,14 +29,15 @@ public class Project implements BaseEntity{
     private String type;
     private LocalDate date;
     private String budget;
-    private String amount;
+    private int amount;
     private String description;
     private String relations;
     private String category;
     private String status;
     private String name_table;
 
-    public Project(String from, String to, String currency, String NCC, String type, LocalDate date, String budget, String amount, String description, String name_table) {
+    public Project(String from, String to, String currency, String NCC, String type, LocalDate date, String budget,
+                   int amount, String description, String relations, String category, String status, String name_table) {
         this.from = from;
         this.to = to;
         this.currency = currency;
@@ -46,6 +47,9 @@ public class Project implements BaseEntity{
         this.budget = budget;
         this.amount = amount;
         this.description = description;
+        this.relations = relations;
+        this.category = category;
+        this.status = status;
         this.name_table = name_table;
     }
 

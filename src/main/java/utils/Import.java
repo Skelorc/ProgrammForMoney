@@ -77,7 +77,7 @@ public class Import {
             }
             closeProgressBar("Данные успешно добавлены!");
             if (list_projects != null)
-                getModel().addProjectsFromExcel(table.getId(), list_projects);
+                getModel().addProjectsFromExcel(list_projects);
             else
                 getModel().addCurrencyFromExcel(list_currency);
         });
@@ -151,7 +151,8 @@ public class Import {
                     project.setType(type);
                     createDateFromCells(project, year, month);
                     project.setBudget(budget);
-                    project.setAmount(amount);
+                    int am = Integer.parseInt(amount);
+                    project.setAmount(am);
                     project.setDescription(description);
                     project.setName_table(ID_TABLE_DATA);
                 } catch (Exception e) {
@@ -187,7 +188,8 @@ public class Import {
                     project.setNCC(ncc);
                     project.setType(type);
                     createDateFromCells(project, "", month);
-                    project.setAmount(amount);
+                    int am = Integer.parseInt(amount);
+                    project.setAmount(am);
                     project.setName_table(ID_TABLE_AVERAGE);
                 } catch (Exception e) {
                     createErrorAlertDialog("Ошибка добавления данных! Проверьте валидность столбцов в файле Excel и программы. Ошибка в строке № " + row.getRowNum());
@@ -289,9 +291,9 @@ public class Import {
         LocalDate localDate = LocalDate.now();
         String date;
         if (!year.equals(""))
-            date = year + "-" + month + "-" + localDate.getDayOfMonth();
+            date = year + "-" + month + "-" + "01";
         else
-            date = LocalDate.now().getYear() + "-" + month + "-" + localDate.getDayOfMonth();
+            date = LocalDate.now().getYear() + "-" + month + "-" + "01";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-M-dd", Locale.US);
         try {
             localDate = LocalDate.parse(date, formatter);

@@ -13,7 +13,6 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mysql-driver-version>8.0.27</mysql-driver-version>
         <lombok-version>1.18.22</lombok-version>
         <javafx.maven.plugin.version>0.0.3</javafx.maven.plugin.version>
     </properties>
@@ -46,12 +45,6 @@
             <version>5.4.30.Final</version>
         </dependency>
 
-        <!--MysqlConnector-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-driver-version}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>

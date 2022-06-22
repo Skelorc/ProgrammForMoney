@@ -138,12 +138,16 @@ abstract class AbstractTable implements Table {
                 });
                 break;
             case NAME_COLUMN_AMOUNT:
-                column.setCellValueFactory(new PropertyValueFactory<>(AMOUNT));
+                column.setCellValueFactory(param -> {
+                    Project project = (Project) param.getValue();
+                    int amount = project.getAmount();
+                    return new SimpleObjectProperty<>(String.valueOf(amount));
+                });
                 column.setCellFactory(TextFieldTableCell.forTableColumn());
                 column.setOnEditCommit(event -> {
                     Project project = (Project) event.getTableView().getItems().get(event.getTablePosition().getRow());
                     String newValue = event.getNewValue();
-                    project.setAmount(newValue);
+                    project.setAmount(Integer.parseInt(newValue));
                     getModel().updateProject(project);
                 });
                 break;
@@ -222,7 +226,6 @@ abstract class AbstractTable implements Table {
                 column.setCellValueFactory(new PropertyValueFactory<>(MONTH));
                 ArrayList<String> months_list = new ArrayList<>();
                 for (int i = 1; i < 13; i++) {
-                    if(i<=10)
                     months_list.add(String.valueOf(i));
                 }
                 ObservableList<String> months = FXCollections.observableArrayList(months_list);
@@ -232,8 +235,8 @@ abstract class AbstractTable implements Table {
                     int row_index = param.getTablePosition().getRow();
                     Project project = (Project) param.getTableView().getItems().get(row_index);
                     LocalDate localDate = LocalDate.now();
-                    String date = localDate.getYear()+"-"+newValue+"-"+localDate.getDayOfMonth();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-M-dd", Locale.US);
+                    String date = localDate.getYear()+"-"+newValue+"-01";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-M-d", Locale.US);
                     localDate = LocalDate.parse(date,formatter);
                     project.setDate(localDate);
                     getModel().updateProject(project);
@@ -246,9 +249,8 @@ abstract class AbstractTable implements Table {
                     String newYear = param.getNewValue();
                     Project project = (Project) param.getTableView().getSelectionModel().getSelectedItem();
                     int month = project.getDate().getMonth().getValue();
-                    int dayOfMonth = project.getDate().getDayOfMonth();
-                    String date_str = newYear+"-"+month+"-"+dayOfMonth;
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-M-dd", Locale.US);
+                    String date_str = newYear+"-"+month+"-01";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-M-d", Locale.US);
                     LocalDate date = LocalDate.parse(date_str,formatter);
                     project.setDate(date);
                     getModel().updateProject(project);
@@ -281,6 +283,10 @@ abstract class AbstractTable implements Table {
     }
 
 
-    protected abstract void addDataToTable(TableView tableView);
+    protected void addDataToTable(TableView tableView)
+    {
+        tableView.setItems(getModel().getProjectForTable(tableView.getId()));
+        tableView.getColumns().setAll(list_columns);
+    }
     protected abstract void addColumnsToList();
 }

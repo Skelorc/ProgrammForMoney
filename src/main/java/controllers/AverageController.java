@@ -23,7 +23,9 @@ public class AverageController extends AverageView {
         Button btn = (Button) actionEvent.getSource();
         String id_button = btn.getId();
         if (id_button.equals(btn_add.getId())) {
-            getModel().saveNewDataObject(cb_to, cb_from, cb_currency, cb_ncc, cb_type, dp_date, tf_amount, getTableView_average().getId());
+            getModel().saveNewProject( cb_from, cb_to,cb_currency, cb_ncc, cb_type, tf_date,
+                    null,null,null,null,
+                    tf_amount,null, tableView_average.getId());
         }
         if(id_button.equals(btn_show_all.getId()))
         {
@@ -44,7 +46,7 @@ public class AverageController extends AverageView {
                     null,
                     tf_filter_amount,
                     null,
-                    getTableView_average().getId()
+                    tableView_average.getId()
             );
             showFilteredProjectsList();
         }
@@ -52,17 +54,17 @@ public class AverageController extends AverageView {
         {
             clearFields();
         }
-        if(id_button.equals(btn_remove.getId()))
+        if(id_button.equals(btn_delete.getId()))
         {
-            int index = getTableView_average().getSelectionModel().getSelectedIndex();
-            getModel().deleteProject(index,getTableView_average().getId());
+            int index = tableView_average.getSelectionModel().getSelectedIndex();
+            getModel().deleteProject(index,tableView_average.getId());
         }
     }
 
     @FXML
     private void exportFile(ActionEvent actionEvent)
     {
-        Export export = new Export(NAME_TABLE_AVERAGE, getTableView_average());
+        Export export = new Export(NAME_TABLE_AVERAGE, tableView_average);
         export.createDocumentAndAddHeaders();
         export.addProjectData();
         showProgressBar();
@@ -74,6 +76,6 @@ public class AverageController extends AverageView {
     {
         Import import_Excel = new Import();
         import_Excel.findFile();
-        import_Excel.readFile(getTableView_average());
+        import_Excel.readFile(tableView_average);
     }
 }

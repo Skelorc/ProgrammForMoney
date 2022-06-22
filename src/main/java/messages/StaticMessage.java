@@ -23,14 +23,14 @@ public class StaticMessage {
 
     public static void createErrorAlertDialog(String message) {
         alert = new Alert(Alert.AlertType.ERROR);
-        String title_for_alert = "Error!";
+        String title_for_alert = "Ошибка!";
         alert.getDialogPane().setStyle("-fx-font-family: Segoe UI; -fx-font-size: 16;-fx-font-weight: Bold;");
         alert.setTitle(title_for_alert);
-        alert.setHeaderText("Error");
+        alert.setHeaderText("Ошибка");
         alert.setContentText(message);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        if(stage != null)
-        closeProgressBar();
+        if (stage != null)
+            closeProgressBar();
         alert.showAndWait();
     }
 
@@ -99,17 +99,18 @@ public class StaticMessage {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                if(stage!=null)
-                stage.close();
+                if (stage != null)
+                    stage.close();
                 createInfoDialog(message, null);
             }
         });
     }
+
     public static void closeProgressBar() {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                if(stage!=null)
+                if (stage != null)
                     stage.close();
             }
         });

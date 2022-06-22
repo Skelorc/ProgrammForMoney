@@ -20,7 +20,7 @@ public class DataView extends AbstractView {
     private List<CheckComboBox<String>> boxes_filters;
 
     @FXML
-    protected TextField tf_from, tf_to, tf_ncc, tf_type,
+    protected TextField tf_from, tf_to, tf_ncc, tf_type, tf_date,
             tf_budget, tf_amount, tf_description, tf_relations, tf_category, tf_status,
             tf_filter_amount, tf_filter_description;
     @FXML
@@ -36,8 +36,6 @@ public class DataView extends AbstractView {
     @FXML
     protected CheckComboBox<String> ccb_from, ccb_to, ccb_currency, ccb_ncc, ccb_type, ccb_budget;
 
-    @FXML
-    protected DatePicker dp_date;
     @FXML
     protected TableView<Project> tableView_data;
 
@@ -79,8 +77,8 @@ public class DataView extends AbstractView {
         {
             box.getCheckModel().clearChecks();
         }
-        dp_date.getEditor().clear();
         clearTextField(tf_description);
+        clearTextField(tf_date);
         clearTextField(tf_filter_description);
         clearTextField(tf_amount);
         clearTextField(tf_filter_amount);
@@ -109,7 +107,6 @@ public class DataView extends AbstractView {
         boxes.add(cb_edit_relations);
         boxes.add(cb_to);
         boxes.add(cb_from);
-        boxes.add(cb_currency);
         boxes.add(cb_ncc);
         boxes.add(cb_type);
         boxes.add(cb_budget);
@@ -119,7 +116,6 @@ public class DataView extends AbstractView {
         boxes_filters.add(ccb_to);
         boxes_filters.add(ccb_type);
         boxes_filters.add(ccb_budget);
-        boxes_filters.add(ccb_currency);
         boxes_filters.add(ccb_ncc);
     }
 

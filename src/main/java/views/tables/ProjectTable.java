@@ -16,11 +16,4 @@ public class ProjectTable extends AbstractTable{
         list_columns.add(new TableColumn<>(NAME_COLUMN_CATEGORY));
         list_columns.add(new TableColumn<>(NAME_COLUMN_STATUS));
     }
-
-    @Override
-    protected void addDataToTable(TableView tableView) {
-        tableView.setItems(getModel().getProjectForTable(tableView.getId()));
-        tableView.getColumns().addAll(list_columns);
-    }
-
 }

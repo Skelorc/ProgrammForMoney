@@ -20,7 +20,7 @@ public class CurrencyTable extends AbstractTable {
         list_columns.add(new TableColumn<>(NAME_COLUMN_MONTH));
         list_columns.add(new TableColumn<>(NAME_COLUMN_YEAR));
         list_columns.add(new TableColumn<>(NAME_COLUMN_DATE_));
-        ObservableList<String> columns = getModel().getColumns();
+        ObservableList<String> columns = getModel().getColumnsByCurrency();
         columns.stream().forEach(x -> list_columns.add(new TableColumn<>(x)));
     }
 

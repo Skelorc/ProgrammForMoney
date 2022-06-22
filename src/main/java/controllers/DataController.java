@@ -83,8 +83,10 @@ public class DataController extends DataView {
         String id = pressed_button.getId();
         if(id.equals(btn_add.getId()))
         {
-            getModel().saveNewDataObject(
-                    cb_from, cb_to, cb_currency, cb_ncc,cb_type,dp_date,cb_budget,tf_amount,tf_description,tableView_data.getId()
+            getModel().saveNewProject(
+                    cb_from, cb_to, cb_currency, cb_ncc,cb_type,
+                    tf_date,null,null,null,
+                    cb_budget,tf_amount,tf_description,tableView_data.getId()
             );
         }
         else if(id.equals(btn_delete.getId()))

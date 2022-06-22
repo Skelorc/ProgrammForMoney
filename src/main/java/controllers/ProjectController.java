@@ -7,10 +7,8 @@ import utils.Export;
 import utils.Import;
 import views.ProjectView;
 
-import static messages.StaticMessage.createInfoDialog;
 import static messages.StaticMessage.showProgressBar;
 import static models.Model.getModel;
-import static textConst.StringConst.NAME_TABLE_CURRENCY;
 import static textConst.StringConst.NAME_TABLE_PROJECT;
 
 public class ProjectController extends ProjectView {
@@ -25,7 +23,8 @@ public class ProjectController extends ProjectView {
         Button btn = (Button) actionEvent.getSource();
         String id_button = btn.getId();
         if (id_button.equals(btn_add.getId())) {
-            getModel().saveNewDataObject(cb_to, cb_from, cb_relations, cb_category, cb_status,getTableView_project().getId());
+            getModel().saveNewProject(cb_from,cb_to,null,null,null,null,
+                    cb_relations, cb_category, cb_status, null,null,null, getTableView_project().getId());
         }
         if(id_button.equals(btn_show_all.getId()))
         {

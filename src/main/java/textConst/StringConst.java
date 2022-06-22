@@ -4,12 +4,13 @@ public class StringConst {
 
 
 
-    public static String TITLE = "Programm For Money";
+    public static String TITLE = "Cash Flow";
 
     public final static String ID_TABLE_DATA = "tableView_data";
     public final static String ID_TABLE_PROJECT = "tableView_project";
     public final static String ID_TABLE_AVERAGE = "tableView_average";
     public final static String ID_TABLE_CURRENCY = "tableView_currency";
+    public final static String ID_TABLE_BALANCE = "tableView_balance";
 
     public final static String NAME_TABLE_DATA = "Data";
     public final static String NAME_TABLE_PROJECT = "Project";
@@ -47,4 +48,9 @@ public class StringConst {
     public final static String NAME_COLUMN_MONTH_ = "Month ";
     public final static String NAME_COLUMN_MONTH = "Month";
     public final static String NAME_COLUMN_YEAR = "Year";
+
+    public final static String INFLOW = "Inflow";
+    public final static String OUFTLOW = "Outflow";
+    public final static String INVESTMENT = "Investment";
+
 }
